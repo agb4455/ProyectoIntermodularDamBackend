@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package gameservice;
+
+// Placeholder proto file for gameService
+// This file exists to satisfy the protobuf-maven-plugin configuration
+
