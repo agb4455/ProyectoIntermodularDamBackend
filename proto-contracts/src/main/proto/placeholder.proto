@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.proyectointermodular.backend.proto;
+
+option java_multiple_files = true;
+option java_package = "com.proyectointermodular.backend.proto";
+option java_outer_classname = "PlaceholderProto";
+
+// Placeholder message - replace with actual services
+message Placeholder {
+    string value = 1;
+}

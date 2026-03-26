@@ -20,6 +20,4 @@ public class TimingWheel {
                 WHEEL_SIZE
         );
     }
-
-
 }
