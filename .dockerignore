@@ -1,0 +1,10 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+!mvnw
+.git/
+.gitignore
+.vscode/
+Dockerfile
+.dockerignore
+HELP.md
+initdb.sql
