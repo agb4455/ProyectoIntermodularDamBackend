@@ -1,0 +1,37 @@
+name: CI_db_server
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'db_back/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'db_back/**'
+
+permissions: 
+  contents: read
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      
+      - name: Configuracion de JDK 25 (Temurin)
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          check-latest: true
+          cache: 'maven'
+          cache-dependency-path: 'db_back/pom.xml'
+      
+      - name: Compilacion y Tests
+        working-directory: db_back
+        run: |
+          chmod +x ./mvnw
+          ./mvnw clean package
