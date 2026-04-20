@@ -3,12 +3,8 @@ name: CI_db_server
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - 'db_back/**'
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'db_back/**'
 
 permissions: 
   contents: read
