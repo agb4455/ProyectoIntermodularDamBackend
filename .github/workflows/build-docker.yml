@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   # use github.repository as the basis for the image name (lowercase is handled by metadata action or manual transformation)
-  IMAGE_NAME: ${{ github.repository }}-db-back
+  IMAGE_NAME: ${{ github.repository }}-db-server
 
 jobs:
   build:
