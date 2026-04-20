@@ -4,7 +4,6 @@ target/
 .git/
 .gitignore
 .vscode/
-Dockerfile
 .dockerignore
 HELP.md
 initdb.sql
