@@ -24,10 +24,9 @@ jobs:
           java-version: '25'
           check-latest: true
           cache: 'maven'
-          cache-dependency-path: 'db_back/pom.xml'
+          cache-dependency-path: 'pom.xml'
       
       - name: Compilacion y Tests
-        working-directory: db_back
         run: |
           chmod +x ./mvnw
           ./mvnw clean package
