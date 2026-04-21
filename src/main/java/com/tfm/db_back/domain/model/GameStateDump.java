@@ -1,5 +1,7 @@
 package com.tfm.db_back.domain.model;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +38,7 @@ public class GameStateDump {
 
     // JSON serializado del GameState del Middle — almacenado como JSONB en PostgreSQL.
     // El DB Server lo trata como String opaco: nunca lo parsea ni modifica.
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "state_json", nullable = false, columnDefinition = "jsonb")
     private String stateJson;
 

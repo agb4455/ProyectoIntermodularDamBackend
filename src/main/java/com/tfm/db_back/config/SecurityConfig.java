@@ -1,6 +1,8 @@
 package com.tfm.db_back.config;
 
+import com.tfm.db_back.domain.service.HandshakeService;
 import com.tfm.db_back.security.HandshakeJwtFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,11 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Filtro creado por dev_b — inyectado por Spring (bean @Component)
     private final HandshakeJwtFilter handshakeJwtFilter;
 
-    public SecurityConfig(HandshakeJwtFilter handshakeJwtFilter) {
-        this.handshakeJwtFilter = handshakeJwtFilter;
+    public SecurityConfig(HandshakeService handshakeService, ObjectMapper objectMapper) {
+        this.handshakeJwtFilter = new HandshakeJwtFilter(handshakeService, objectMapper);
     }
 
     @Bean
