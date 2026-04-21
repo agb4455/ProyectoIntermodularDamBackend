@@ -27,6 +27,8 @@ jobs:
           cache-dependency-path: 'pom.xml'
       
       - name: Compilacion y Tests
+        env:
+          DB_HANDSHAKE_SECRET: ${{ secrets.DB_HANDSHAKE_SECRET }}
         run: 
           chmod +x ./mvnw
           ./mvnw clean package
