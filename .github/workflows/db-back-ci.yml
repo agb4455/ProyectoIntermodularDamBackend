@@ -29,6 +29,6 @@ jobs:
       - name: Compilacion y Tests
         env:
           DB_HANDSHAKE_SECRET: ${{ secrets.DB_HANDSHAKE_SECRET }}
-        run: 
+        run: |
           chmod +x ./mvnw
           ./mvnw clean package
