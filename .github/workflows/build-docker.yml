@@ -19,6 +19,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Configuracion de JDK 25 (Temurin)
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          check-latest: true
+          cache: 'maven'
+          cache-dependency-path: 'pom.xml'
+
+      - name: Compilacion de empaquetado (JAR)
+        run: |
+          chmod +x ./mvnw
+          ./mvnw clean package -DskipTests
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
