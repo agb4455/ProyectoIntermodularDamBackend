@@ -3,6 +3,7 @@ package com.tfm.db_back.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfm.db_back.api.dto.CharacterResponseDto;
 import com.tfm.db_back.api.dto.CreateCharacterRequestDto;
+import com.tfm.db_back.domain.model.ClanType;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.service.CharacterService;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,12 +54,12 @@ class CharacterControllerTest {
 
         userId = UUID.randomUUID();
         characterId = UUID.randomUUID();
-        responseDto = new CharacterResponseDto(characterId, userId, "berserkers", "Ragnar", Instant.now());
+        responseDto = new CharacterResponseDto(characterId, userId, ClanType.BERSERKERS, "Ragnar", Instant.now());
     }
 
     @Test
     void createCharacter_givenValidDto_shouldReturnCreated() throws Exception {
-        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, "berserkers", "Ragnar");
+        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, ClanType.BERSERKERS, "Ragnar");
         when(characterService.createCharacter(any(CreateCharacterRequestDto.class))).thenReturn(responseDto);
 
         mockMvc.perform(post("/internal/characters")

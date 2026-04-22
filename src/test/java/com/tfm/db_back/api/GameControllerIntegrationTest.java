@@ -2,6 +2,7 @@ package com.tfm.db_back.api;
 
 import com.tfm.db_back.AbstractIntegrationTest;
 import com.tfm.db_back.api.dto.*;
+import com.tfm.db_back.domain.model.ClanType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,9 +41,9 @@ public class GameControllerIntegrationTest extends AbstractIntegrationTest {
     void gameFlow_shouldCreateDumpAndEnd() {
         // 1. Create 2 Users & Characters
         String u1 = createUser("g1_user1");
-        String c1 = createCharacter(u1, "valkirias");
+        String c1 = createCharacter(u1, ClanType.VALKIRIAS);
         String u2 = createUser("g1_user2");
-        String c2 = createCharacter(u2, "jarls");
+        String c2 = createCharacter(u2, ClanType.JARLS);
 
         // 2. Create Game
         CreateGameRequestDto gameDto = new CreateGameRequestDto((short) 2, List.of(UUID.fromString(c1), UUID.fromString(c2)));
@@ -77,7 +78,7 @@ public class GameControllerIntegrationTest extends AbstractIntegrationTest {
         return (String) ((Map<String, Object>) userRes.getBody().get("data")).get("id");
     }
 
-    private String createCharacter(String userId, String clanId) {
+    private String createCharacter(String userId, ClanType clanId) {
         CreateCharacterRequestDto charDto = new CreateCharacterRequestDto(UUID.fromString(userId), clanId, "Char " + UUID.randomUUID().toString().substring(0, 5));
         ResponseEntity<Map> charRes = restTemplate.postForEntity(baseUrl + "/internal/characters", new HttpEntity<>(charDto, authHeaders), Map.class);
         return (String) ((Map<String, Object>) charRes.getBody().get("data")).get("id");

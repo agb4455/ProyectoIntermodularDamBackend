@@ -1,0 +1,42 @@
+# Configuración principal — todos los valores vienen de variables de entorno
+spring:
+  application:
+    name: db_back
+  
+  # Datasource — conexión a PostgreSQL
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA — Flyway gestiona el schema, JPA solo valida
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+  
+  # Data — Repositorios y persistencia (Spring Boot 3/4 Style)
+  mongodb:
+    uri: ${MONGODB_URL}
+    database: ${MONGODB_DB_NAME:vikingclanwars}
+  
+  # Flyway — migraciones automáticas al arrancar
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# Servidor
+server:
+  port: ${PORT:8080}
+
+# Configuración personalizada del dominio
+app:
+  handshake-secret: ${DB_HANDSHAKE_SECRET}
+  handshake-token-ttl-hours: ${HANDSHAKE_TOKEN_TTL_HOURS:24}
+
+# Pool de threads para @Async
+async:
+  pool-size: 4

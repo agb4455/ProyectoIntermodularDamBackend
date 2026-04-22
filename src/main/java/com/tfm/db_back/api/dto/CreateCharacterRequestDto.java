@@ -1,7 +1,7 @@
 package com.tfm.db_back.api.dto;
 
+import com.tfm.db_back.domain.model.ClanType;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
@@ -9,8 +9,7 @@ import java.util.UUID;
 public record CreateCharacterRequestDto(
     UUID userId,
     
-    @Pattern(regexp = "^(berserkers|valkirias|jarls|skalds|seidr|draugr)$", message = "Clan inválido")
-    String clanId,
+    ClanType clanId,
     
     @NotBlank
     @Size(max = 100)

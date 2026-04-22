@@ -53,7 +53,8 @@ public class AnalyticsControllerIntegrationTest extends AbstractIntegrationTest 
             UUID.randomUUID().toString(),
             "2026-04-21T00:00:00Z",
             "war",
-            List.of(pDto)
+            List.of(pDto),
+            List.of()
         );
 
         HttpEntity<AnalyticsSnapshotRequestDto> req = new HttpEntity<>(dto, authHeaders);

@@ -1,6 +1,8 @@
 package com.tfm.db_back.domain.service;
 
 import com.tfm.db_back.api.dto.AnalyticsSnapshotRequestDto;
+import com.tfm.db_back.infrastructure.mongodb.BattleEventDocument;
+import com.tfm.db_back.infrastructure.mongodb.BattleEventRepository;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotDocument;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotRepository;
 import org.slf4j.Logger;
@@ -19,9 +21,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private static final Logger log = LoggerFactory.getLogger(AnalyticsServiceImpl.class);
 
     private final GameSnapshotRepository gameSnapshotRepository;
+    private final BattleEventRepository battleEventRepository;
 
-    public AnalyticsServiceImpl(GameSnapshotRepository gameSnapshotRepository) {
+    public AnalyticsServiceImpl(GameSnapshotRepository gameSnapshotRepository,
+                                BattleEventRepository battleEventRepository) {
         this.gameSnapshotRepository = gameSnapshotRepository;
+        this.battleEventRepository = battleEventRepository;
     }
 
     @Override
@@ -31,6 +36,14 @@ public class AnalyticsServiceImpl implements AnalyticsService {
             GameSnapshotDocument document = mapToDocument(dto);
             gameSnapshotRepository.save(document);
             log.debug("Successfully saved analytics snapshot for game: {}", dto.gameId());
+
+            if (dto.battleEvents() != null && !dto.battleEvents().isEmpty()) {
+                List<BattleEventDocument> battleEvents = dto.battleEvents().stream()
+                        .map(be -> mapToBattleEvent(dto.gameId(), be))
+                        .collect(Collectors.toList());
+                battleEventRepository.saveAll(battleEvents);
+                log.debug("Successfully saved {} battle events for game: {}", battleEvents.size(), dto.gameId());
+            }
         } catch (Exception e) {
             log.error("Failed to save analytics snapshot for game: {}. Error: {}", dto.gameId(), e.getMessage(), e);
             // We do not propagate the exception to keep it fire-and-forget
@@ -66,6 +79,23 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 Instant.parse(dto.snapshotAt()),
                 dto.phase(),
                 playerSnapshots
+        );
+    }
+    private BattleEventDocument mapToBattleEvent(String gameId, AnalyticsSnapshotRequestDto.BattleEventDto dto) {
+        return new BattleEventDocument(
+                gameId,
+                Instant.parse(dto.timestamp()),
+                dto.attackerCharacterId(),
+                dto.attackerClanId(),
+                dto.defenderCharacterId(),
+                dto.defenderClanId(),
+                dto.attackerTotalPoints(),
+                dto.defenderTotalPoints(),
+                dto.outcome(),
+                dto.advantageApplied(),
+                dto.advantageMultiplier(),
+                dto.attackerTroopsLost(),
+                dto.defenderTroopsLost()
         );
     }
 }

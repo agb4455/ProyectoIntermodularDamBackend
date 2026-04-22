@@ -44,10 +44,10 @@ public class SecurityConfig {
                 )
                 // Registrar el filtro JWT antes del filtro de credenciales estándar de Spring
                 .addFilterBefore(handshakeJwtFilter, UsernamePasswordAuthenticationFilter.class)
-                // Cabeceras de seguridad — security.md §6
                 .headers(h -> h
                         .contentTypeOptions(c -> { /* habilita X-Content-Type-Options: nosniff */ })
                         .frameOptions(fo -> fo.deny())
+                        .referrerPolicy(r -> r.policy(org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
                 )
                 .build();
     }

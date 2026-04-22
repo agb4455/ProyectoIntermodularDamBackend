@@ -3,6 +3,7 @@ package com.tfm.db_back.api;
 import com.tfm.db_back.api.dto.CreateGameRequestDto;
 import com.tfm.db_back.api.dto.EndGameRequestDto;
 import com.tfm.db_back.api.dto.GameResponseDto;
+import com.tfm.db_back.domain.model.GameStatus;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.service.GameDumpService;
 import com.tfm.db_back.domain.service.GameService;
@@ -64,7 +65,7 @@ class GameControllerTest {
         );
 
         testGameResponse = new GameResponseDto(
-                gameId, "waiting", (short) 2,
+                gameId, GameStatus.WAITING, (short) 2,
                 Instant.now(), null, null, null,
                 List.of(participant), null
         );
@@ -234,7 +235,7 @@ class GameControllerTest {
     @Test
     void endGame_givenExistingGame_shouldReturn200WithFinishedGame() throws Exception {
         GameResponseDto finishedGame = new GameResponseDto(
-                gameId, "finished", (short) 2,
+                gameId, GameStatus.FINISHED, (short) 2,
                 Instant.now(), Instant.now(), Instant.now(), charId,
                 List.of(), null
         );
@@ -259,7 +260,7 @@ class GameControllerTest {
     @Test
     void endGame_givenNullWinner_shouldReturn200WithoutWinner() throws Exception {
         GameResponseDto finishedGame = new GameResponseDto(
-                gameId, "finished", (short) 2,
+                gameId, GameStatus.FINISHED, (short) 2,
                 Instant.now(), Instant.now(), Instant.now(), null,
                 List.of(), null
         );

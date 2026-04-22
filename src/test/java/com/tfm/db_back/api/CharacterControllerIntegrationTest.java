@@ -2,6 +2,7 @@ package com.tfm.db_back.api;
 
 import com.tfm.db_back.AbstractIntegrationTest;
 import com.tfm.db_back.api.dto.CreateCharacterRequestDto;
+import com.tfm.db_back.domain.model.ClanType;
 import com.tfm.db_back.api.dto.CreateUserRequestDto;
 import com.tfm.db_back.api.dto.HandshakeRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,7 @@ public class CharacterControllerIntegrationTest extends AbstractIntegrationTest 
 
         // 2. Create Character
         String cUrl = "http://localhost:" + port + "/internal/characters";
-        CreateCharacterRequestDto charDto = new CreateCharacterRequestDto(UUID.fromString(userId), "berserkers", "Bjorn Ironside");
+        CreateCharacterRequestDto charDto = new CreateCharacterRequestDto(UUID.fromString(userId), ClanType.BERSERKERS, "Bjorn Ironside");
         HttpEntity<CreateCharacterRequestDto> charReq = new HttpEntity<>(charDto, authHeaders);
         ResponseEntity<java.util.Map> charRes = restTemplate.postForEntity(cUrl, charReq, java.util.Map.class);
         

@@ -4,6 +4,7 @@ import com.tfm.db_back.api.dto.CreateCharacterRequestDto;
 import com.tfm.db_back.api.dto.CharacterResponseDto;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.model.Character;
+import com.tfm.db_back.domain.model.ClanType;
 import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.domain.repository.UserRepository;
 import org.springframework.stereotype.Service;

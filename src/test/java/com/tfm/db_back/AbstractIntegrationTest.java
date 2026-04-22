@@ -2,11 +2,11 @@ package com.tfm.db_back;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractIntegrationTest {
@@ -14,40 +14,28 @@ public abstract class AbstractIntegrationTest {
     @LocalServerPort
     protected int port;
 
+    @ServiceConnection
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
+
+    @ServiceConnection
     static final MongoDBContainer mongo = new MongoDBContainer("mongo:6.0");
 
     static {
-        try {
-            postgres.start();
-            mongo.start();
-            
-            // Inyectar variables de entorno directamente en el sistema para que coincidan 
-            // con los placeholders de application.properties (main)
-            System.setProperty("POSTGRES_URL", postgres.getJdbcUrl());
-            System.setProperty("MONGODB_URL", mongo.getReplicaSetUrl());
-            System.setProperty("DB_HANDSHAKE_SECRET", "test-secret-mÃ­nimo-32-chars-ok!!");
-        } catch (Exception e) {
-            System.err.println("FAILED TO START TESTCONTAINERS: " + e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
+        postgres.start();
+        mongo.start();
     }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        // Datasource properties
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+        // El secreto de handshake es necesario para que los tests pasen el filtro de seguridad
+        registry.add("DB_HANDSHAKE_SECRET", () -> "test-secret-minimo-32-chars-ok-fixed!!");
         
-        // Mongo properties
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
-
-        // Placeholders used in application.properties (main)
+        // Mapeo explicito de variables de entorno para que coincidan con application.yml
         registry.add("POSTGRES_URL", postgres::getJdbcUrl);
-        registry.add("MONGODB_URL", mongo::getReplicaSetUrl);
+        registry.add("POSTGRES_USER", postgres::getUsername);
+        registry.add("POSTGRES_PASSWORD", postgres::getPassword);
         
-        // Remove redundant spring.flyway.url/user/password to use the default DataSource
+        registry.add("MONGODB_URL", mongo::getReplicaSetUrl);
+        registry.add("MONGODB_DB_NAME", () -> "test");
     }
 }

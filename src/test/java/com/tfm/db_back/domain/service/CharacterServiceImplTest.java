@@ -4,6 +4,7 @@ import com.tfm.db_back.api.dto.CharacterResponseDto;
 import com.tfm.db_back.api.dto.CreateCharacterRequestDto;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.model.Character;
+import com.tfm.db_back.domain.model.ClanType;
 import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,13 +44,13 @@ class CharacterServiceImplTest {
         userId = UUID.randomUUID();
         characterId = UUID.randomUUID();
         
-        character = new Character(characterId, userId, "berserkers", "Ragnar", Instant.now());
+        character = new Character(characterId, userId, ClanType.BERSERKERS, "Ragnar", Instant.now());
     }
 
     @Test
     void createCharacter_Success() {
         // Arrange
-        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, "berserkers", "Ragnar");
+        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, ClanType.BERSERKERS, "Ragnar");
         when(userRepository.existsById(userId)).thenReturn(true);
         when(characterRepository.save(any(Character.class))).thenReturn(character);
 
@@ -59,7 +60,7 @@ class CharacterServiceImplTest {
         // Assert
         assertNotNull(response);
         assertEquals("Ragnar", response.name());
-        assertEquals("berserkers", response.clanId());
+        assertEquals(ClanType.BERSERKERS, response.clanId());
         assertEquals(userId, response.userId());
         verify(characterRepository, times(1)).save(any(Character.class));
     }
@@ -67,7 +68,7 @@ class CharacterServiceImplTest {
     @Test
     void createCharacter_UserNotFound_ThrowsException() {
         // Arrange
-        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, "berserkers", "Ragnar");
+        CreateCharacterRequestDto dto = new CreateCharacterRequestDto(userId, ClanType.BERSERKERS, "Ragnar");
         when(userRepository.existsById(userId)).thenReturn(false);
 
         // Act & Assert

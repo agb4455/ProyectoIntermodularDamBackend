@@ -1,6 +1,7 @@
 package com.tfm.db_back.domain.repository;
 
 import com.tfm.db_back.domain.model.Game;
+import com.tfm.db_back.domain.model.GameStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
      * Usado en GET /internal/games/active → status != 'finished'.
      * Crítico para la recuperación del Middle tras un reinicio.
      */
-    List<Game> findByStatusNot(String status);
+    List<Game> findByStatusNot(GameStatus status);
 }

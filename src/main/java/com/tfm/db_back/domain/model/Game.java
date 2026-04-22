@@ -2,6 +2,8 @@ package com.tfm.db_back.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,8 +30,9 @@ public class Game {
     private UUID id;
 
     // Estado de la partida: waiting | preparation | war | end | finished
+    @Enumerated(jakarta.persistence.EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String status;
+    private GameStatus status;
 
     // Número máximo de jugadores permitidos (2-6 según arquitectura §7)
     @Column(name = "max_players", nullable = false)
@@ -56,13 +59,13 @@ public class Game {
     }
 
     // Constructor para crear una partida nueva (sin id ni timestamps — los gestiona la BD)
-    public Game(String status, short maxPlayers) {
+    public Game(GameStatus status, short maxPlayers) {
         this.status = status;
         this.maxPlayers = maxPlayers;
     }
 
     // Constructor completo para reconstrucción desde BD (tests y mapeos)
-    public Game(UUID id, String status, short maxPlayers, Instant createdAt,
+    public Game(UUID id, GameStatus status, short maxPlayers, Instant createdAt,
                 Instant startedAt, Instant endedAt, UUID winnerCharacterId) {
         this.id = id;
         this.status = status;
@@ -89,11 +92,11 @@ public class Game {
         this.id = id;
     }
 
-    public String getStatus() {
+    public GameStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(GameStatus status) {
         this.status = status;
     }
 

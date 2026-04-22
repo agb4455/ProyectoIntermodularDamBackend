@@ -5,6 +5,7 @@ import com.tfm.db_back.api.dto.EndGameRequestDto;
 import com.tfm.db_back.api.dto.GameResponseDto;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.model.Game;
+import com.tfm.db_back.domain.model.GameStatus;
 import com.tfm.db_back.domain.model.GameParticipant;
 import com.tfm.db_back.domain.model.GameStateDump;
 import com.tfm.db_back.domain.repository.GameParticipantRepository;
@@ -60,7 +61,7 @@ class GameServiceTest {
         char1Id = UUID.randomUUID();
         char2Id = UUID.randomUUID();
 
-        testGame = new Game(gameId, "waiting", (short) 2,
+        testGame = new Game(gameId, GameStatus.WAITING, (short) 2,
                 Instant.now(), null, null, null);
 
         participant1 = new GameParticipant(UUID.randomUUID(), gameId, char1Id, (short) 1, false);
@@ -80,7 +81,7 @@ class GameServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo(gameId);
-        assertThat(result.status()).isEqualTo("waiting");
+        assertThat(result.status()).isEqualTo(GameStatus.WAITING);
         assertThat(result.participants()).hasSize(2);
         assertThat(result.latestStateJson()).isNull(); // sin dump aún
 
@@ -142,20 +143,20 @@ class GameServiceTest {
 
     @Test
     void getActiveGames_givenActiveGames_shouldReturnListExcludingFinished() {
-        when(gameRepository.findByStatusNot("finished")).thenReturn(List.of(testGame));
+        when(gameRepository.findByStatusNot(GameStatus.FINISHED)).thenReturn(List.of(testGame));
         when(participantRepository.findByGameId(gameId)).thenReturn(List.of(participant1));
         when(dumpRepository.findFirstByGameIdOrderByDumpedAtDesc(gameId)).thenReturn(Optional.empty());
 
         List<GameResponseDto> result = gameService.getActiveGames();
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).status()).isEqualTo("waiting");
-        verify(gameRepository).findByStatusNot("finished");
+        assertThat(result.get(0).status()).isEqualTo(GameStatus.WAITING);
+        verify(gameRepository).findByStatusNot(GameStatus.FINISHED);
     }
 
     @Test
     void getActiveGames_givenNoActiveGames_shouldReturnEmptyList() {
-        when(gameRepository.findByStatusNot("finished")).thenReturn(List.of());
+        when(gameRepository.findByStatusNot(GameStatus.FINISHED)).thenReturn(List.of());
 
         List<GameResponseDto> result = gameService.getActiveGames();
 
@@ -174,7 +175,7 @@ class GameServiceTest {
         gameService.endGame(gameId, dto);
 
         verify(gameRepository).save(argThat(g ->
-                "finished".equals(g.getStatus()) &&
+                GameStatus.FINISHED == g.getStatus() &&
                 char1Id.equals(g.getWinnerCharacterId()) &&
                 g.getEndedAt() != null
         ));
@@ -190,7 +191,7 @@ class GameServiceTest {
         gameService.endGame(gameId, dto);
 
         verify(gameRepository).save(argThat(g ->
-                "finished".equals(g.getStatus()) &&
+                GameStatus.FINISHED == g.getStatus() &&
                 g.getWinnerCharacterId() == null
         ));
     }

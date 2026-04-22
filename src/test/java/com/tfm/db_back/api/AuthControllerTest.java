@@ -28,7 +28,7 @@ class AuthControllerTest {
 
     @BeforeEach
     void setUp() {
-        AuthController authController = new AuthController(handshakeService, "test-secret-mínimo-32-chars-ok!!");
+        AuthController authController = new AuthController(handshakeService, "test-secret-minimo-32-chars-ok-fixed!!");
         mockMvc = MockMvcBuilders.standaloneSetup(authController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
@@ -43,7 +43,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/internal/auth/handshake")
                         .contentType(MediaType.APPLICATION_JSON)
                         // El secret de test coincide con app.handshake-secret del test properties
-                        .content("{\"secret\": \"test-secret-mínimo-32-chars-ok!!\"}"))
+                        .content("{\"secret\": \"test-secret-minimo-32-chars-ok-fixed!!\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.token").value("mocked-jwt-token"));
     }

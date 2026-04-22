@@ -1,5 +1,7 @@
 package com.tfm.db_back.api.dto;
 
+import com.tfm.db_back.domain.model.GameStatus;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +14,7 @@ import java.util.UUID;
  */
 public record GameResponseDto(
         UUID id,
-        String status,
+        GameStatus status,
         short maxPlayers,
         Instant createdAt,
         Instant startedAt,

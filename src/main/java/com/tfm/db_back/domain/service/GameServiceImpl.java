@@ -5,6 +5,7 @@ import com.tfm.db_back.api.dto.EndGameRequestDto;
 import com.tfm.db_back.api.dto.GameResponseDto;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.model.Game;
+import com.tfm.db_back.domain.model.GameStatus;
 import com.tfm.db_back.domain.model.GameParticipant;
 import com.tfm.db_back.domain.repository.GameParticipantRepository;
 import com.tfm.db_back.domain.repository.GameRepository;
@@ -23,8 +24,7 @@ import java.util.UUID;
 @Service
 public class GameServiceImpl implements GameService {
 
-    private static final String STATUS_FINISHED = "finished";
-    private static final String STATUS_WAITING = "waiting";
+    // Eliminamos las constantes de String en favor del Enum
 
     private final GameRepository gameRepository;
     private final GameParticipantRepository participantRepository;
@@ -47,7 +47,7 @@ public class GameServiceImpl implements GameService {
     @Transactional
     public GameResponseDto createGame(CreateGameRequestDto dto) {
         // Crear el registro principal de la partida
-        Game game = new Game(STATUS_WAITING, dto.maxPlayers());
+        Game game = new Game(GameStatus.WAITING, dto.maxPlayers());
         Game savedGame = gameRepository.save(game);
 
         // Registrar participantes en orden (join_order basado en índice de la lista)
@@ -95,7 +95,7 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional(readOnly = true)
     public List<GameResponseDto> getActiveGames() {
-        List<Game> activeGames = gameRepository.findByStatusNot(STATUS_FINISHED);
+        List<Game> activeGames = gameRepository.findByStatusNot(GameStatus.FINISHED);
 
         return activeGames.stream()
                 .map(game -> {
@@ -119,7 +119,7 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Partida no encontrada con id: " + id));
 
-        game.setStatus(STATUS_FINISHED);
+        game.setStatus(GameStatus.FINISHED);
         game.setEndedAt(Instant.now());
         game.setWinnerCharacterId(dto.winnerCharacterId()); // puede ser null (empate)
 

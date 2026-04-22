@@ -2,6 +2,8 @@ package com.tfm.db_back.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,8 +25,9 @@ public class Character {
     @Column(nullable = false, name = "user_id")
     private UUID userId;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "clan_id")
-    private String clanId;
+    private ClanType clanId;
 
     @Column(nullable = false)
     private String name;
@@ -36,13 +39,13 @@ public class Character {
     public Character() {
     }
 
-    public Character(UUID userId, String clanId, String name) {
+    public Character(UUID userId, ClanType clanId, String name) {
         this.userId = userId;
         this.clanId = clanId;
         this.name = name;
     }
 
-    public Character(UUID id, UUID userId, String clanId, String name, Instant createdAt) {
+    public Character(UUID id, UUID userId, ClanType clanId, String name, Instant createdAt) {
         this.id = id;
         this.userId = userId;
         this.clanId = clanId;
@@ -75,11 +78,11 @@ public class Character {
         this.userId = userId;
     }
 
-    public String getClanId() {
+    public ClanType getClanId() {
         return clanId;
     }
 
-    public void setClanId(String clanId) {
+    public void setClanId(ClanType clanId) {
         this.clanId = clanId;
     }
 

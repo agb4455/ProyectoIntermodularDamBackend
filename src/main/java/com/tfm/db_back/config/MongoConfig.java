@@ -12,7 +12,7 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class MongoConfig {
 
-    @Value("${ASYNC_POOL_SIZE:4}")
+    @Value("${async.pool-size:4}")
     private int asyncPoolSize;
 
     @Bean(name = "analyticsTaskExecutor")

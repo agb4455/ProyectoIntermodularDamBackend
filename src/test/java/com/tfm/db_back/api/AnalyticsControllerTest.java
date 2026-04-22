@@ -46,7 +46,8 @@ class AnalyticsControllerTest {
                                 "char1", "clan1", 100, 50, 1000,
                                 List.of(), List.of(), false
                         )
-                )
+                ),
+                List.of()
         );
 
         when(analyticsService.saveSnapshot(any())).thenReturn(CompletableFuture.completedFuture(null));
@@ -71,7 +72,8 @@ class AnalyticsControllerTest {
                                 "char1", "clan1", 100, 50, 1000,
                                 List.of(), List.of(), false
                         )
-                )
+                ),
+                List.of()
         );
 
         mockMvc.perform(post("/internal/analytics/snapshots")

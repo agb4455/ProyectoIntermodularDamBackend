@@ -1,6 +1,7 @@
 package com.tfm.db_back.domain.service;
 
 import com.tfm.db_back.api.dto.AnalyticsSnapshotRequestDto;
+import com.tfm.db_back.infrastructure.mongodb.BattleEventRepository;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotDocument;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +20,14 @@ import static org.mockito.Mockito.*;
 class AnalyticsServiceTest {
 
     private GameSnapshotRepository gameSnapshotRepository;
+    private BattleEventRepository battleEventRepository;
     private AnalyticsServiceImpl analyticsService;
 
     @BeforeEach
     void setUp() {
         gameSnapshotRepository = mock(GameSnapshotRepository.class);
-        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository);
+        battleEventRepository = mock(BattleEventRepository.class);
+        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository);
     }
 
     @Test
@@ -40,7 +43,8 @@ class AnalyticsServiceTest {
                                 List.of("research1"),
                                 false
                         )
-                )
+                ),
+                List.of()
         );
 
         when(gameSnapshotRepository.save(any(GameSnapshotDocument.class))).thenReturn(new GameSnapshotDocument());
@@ -66,6 +70,7 @@ class AnalyticsServiceTest {
                 UUID.randomUUID().toString(),
                 "2026-04-21T18:00:00Z",
                 "war",
+                List.of(),
                 List.of()
         );
 

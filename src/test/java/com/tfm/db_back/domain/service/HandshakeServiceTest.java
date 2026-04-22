@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class HandshakeServiceTest {
 
-    private static final String VALID_SECRET = "test-secret-minimo-32-chars-ok!!";
+    private static final String VALID_SECRET = "test-secret-minimo-32-chars-ok-fixed!!";
     private static final String OTHER_SECRET = "otro-secret-minimo-32-chars-ok!!";
 
     private HandshakeService serviceUnderTest;
