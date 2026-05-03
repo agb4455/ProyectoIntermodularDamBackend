@@ -10,6 +10,8 @@ import java.util.UUID;
  * Repositorio JPA para la entidad User.
  * Spring Data genera automáticamente las queries derivadas del nombre del método.
  * NUNCA se llama directamente desde un controlador — siempre a través de UserService.
+ *
+ * @author Adrián González Blando
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
 

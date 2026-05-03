@@ -5,6 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Clase principal de la aplicación DB Back.
+ * Punto de entrada de Spring Boot para la capa de persistencia.
+ *
+ * @author Adrián González Blando
+ */
 @SpringBootApplication
 public class DbBackApplication {
 

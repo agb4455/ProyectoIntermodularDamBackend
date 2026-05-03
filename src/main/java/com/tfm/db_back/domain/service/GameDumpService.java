@@ -6,8 +6,10 @@ import java.util.UUID;
 
 /**
  * Interfaz del servicio de volcados de estado de partida.
- * dev_b implementa esta interfaz y la expone a través de GameController.
+ * Define las operaciones para persistir y recuperar instantáneas del estado del juego.
  * Solo realiza INSERTs en game_state_dumps — nunca UPDATE ni DELETE.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface GameDumpService {
 

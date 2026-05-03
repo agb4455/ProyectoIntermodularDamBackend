@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Configuración de Spring Security para el DB Server.
  * API interna — CSRF desactivado, sesiones stateless, todo requiere JWT de handshake.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @Configuration
 @EnableWebSecurity

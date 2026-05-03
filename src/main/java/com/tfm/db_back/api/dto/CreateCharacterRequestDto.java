@@ -6,6 +6,11 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
+/**
+ * DTO para la petición de creación de un nuevo personaje.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 public record CreateCharacterRequestDto(
     UUID userId,
     

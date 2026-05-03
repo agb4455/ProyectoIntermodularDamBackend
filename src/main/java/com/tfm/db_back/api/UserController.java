@@ -21,6 +21,8 @@ import java.util.UUID;
  * Controlador REST para el dominio de usuarios.
  * Capa fina — delega toda la lógica a UserService.
  * Protegido por HandshakeJwtFilter: solo el Middle Server puede llamar estos endpoints.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @RestController
 @RequestMapping("/internal/users")

@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 /**
  * Manejador global de excepciones para toda la API REST.
  * Garantiza un shape de error consistente y nunca filtra información interna (security.md §8).
+ *
+ * @author Adrián González Blando
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

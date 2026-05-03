@@ -8,6 +8,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
+/**
+ * Configuración de MongoDB y ejecución asíncrona para analíticas.
+ * Habilita @EnableAsync para que las escrituras en MongoDB no bloqueen el flujo principal.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 @Configuration
 @EnableAsync
 public class MongoConfig {

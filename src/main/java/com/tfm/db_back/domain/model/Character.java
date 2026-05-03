@@ -13,25 +13,46 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Entidad JPA que representa a un personaje (Character) en el sistema.
+ * Un personaje pertenece a un usuario y a un clan específico.
+ *
+ * @author Adrián González Blando
+ */
 @Entity
 @Table(name = "characters")
 public class Character {
 
+    /**
+     * Identificador único del personaje (UUID).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    /**
+     * Identificador del usuario propietario del personaje.
+     */
     @Column(nullable = false, name = "user_id")
     private UUID userId;
 
+    /**
+     * Tipo de clan al que pertenece el personaje.
+     */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "clan_id")
     private ClanType clanId;
 
+    /**
+     * Nombre del personaje.
+     */
     @Column(nullable = false)
     private String name;
 
+    /**
+     * Fecha y hora de creación del personaje.
+     */
     @Column(nullable = false, updatable = false, name = "created_at")
     private Instant createdAt;
 

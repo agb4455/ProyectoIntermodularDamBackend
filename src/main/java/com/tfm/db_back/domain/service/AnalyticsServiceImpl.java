@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+/**
+ * Implementación del servicio de analíticas.
+ * Procesa y persiste instantáneas y eventos de batalla en MongoDB de forma asíncrona.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 @Service
 public class AnalyticsServiceImpl implements AnalyticsService {
 

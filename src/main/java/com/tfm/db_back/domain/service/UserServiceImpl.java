@@ -16,6 +16,8 @@ import java.util.UUID;
  * Implementación del servicio de usuarios.
  * Contiene toda la lógica de negocio del dominio User.
  * Los controladores NUNCA acceden directamente al repositorio.
+ *
+ * @author Adrián González Blando
  */
 @Service
 public class UserServiceImpl implements UserService {

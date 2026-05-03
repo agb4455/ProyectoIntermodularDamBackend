@@ -15,6 +15,8 @@ import java.util.Date;
 /**
  * Servicio que gestiona la generación y validación de JWT de handshake.
  * El token autentica al Middle Server como servicio — no a un usuario concreto.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @Service
 public class HandshakeService {

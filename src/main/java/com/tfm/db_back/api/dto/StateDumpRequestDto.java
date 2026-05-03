@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
  * DTO de entrada para el volcado periódico del estado de una partida.
  * El Middle envía el GameState serializado como String JSON opaco cada ~15 minutos.
  * El DB Server lo persiste tal cual en la columna JSONB sin procesarlo.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 public record StateDumpRequestDto(
 

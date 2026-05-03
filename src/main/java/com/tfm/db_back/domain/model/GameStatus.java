@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * WAR: Fase de guerra (recursos y ataques).
  * END: Fase final (2 jugadores).
  * FINISHED: Partida terminada.
+ *
+ * @author Adrián González Blando
  */
 public enum GameStatus {
     WAITING,

@@ -25,6 +25,8 @@ import java.util.UUID;
  * Expone los 5 endpoints de gestión del ciclo de vida de partidas.
  * Todos los endpoints requieren el handshake JWT (validado por HandshakeJwtFilter).
  * NUNCA devuelve entidades JPA — siempre usa GameResponseDto envuelto en ApiResponse.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @RestController
 @RequestMapping("/internal/games")

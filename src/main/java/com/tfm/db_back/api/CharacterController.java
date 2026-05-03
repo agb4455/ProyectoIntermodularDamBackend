@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controlador REST para la gestión de personajes (characters).
+ * Permite la creación y consulta de personajes asociados a usuarios.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 @RestController
 @RequestMapping("/internal/characters")
 public class CharacterController {

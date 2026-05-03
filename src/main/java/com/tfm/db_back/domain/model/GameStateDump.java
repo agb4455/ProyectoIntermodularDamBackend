@@ -22,27 +22,37 @@ import java.util.UUID;
  *
  * El campo state_json es un String opaco — el DB Server nunca lo deserializa.
  * PostgreSQL lo almacena como columna JSONB para optimizar consultas futuras.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @Entity
 @Table(name = "game_state_dumps")
 public class GameStateDump {
 
+    /**
+     * Identificador único del volcado (UUID).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
 
-    // FK a la partida cuyo estado se está volcando
+    /**
+     * Identificador de la partida a la que pertenece el volcado.
+     */
     @Column(name = "game_id", nullable = false, updatable = false)
     private UUID gameId;
 
-    // JSON serializado del GameState del Middle — almacenado como JSONB en PostgreSQL.
-    // El DB Server lo trata como String opaco: nunca lo parsea ni modifica.
+    /**
+     * Estado completo de la partida en formato JSON.
+     */
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "state_json", nullable = false, columnDefinition = "jsonb")
     private String stateJson;
 
-    // Timestamp del volcado — se inicializa en @PrePersist
+    /**
+     * Fecha y hora en que se realizó el volcado.
+     */
     @Column(name = "dumped_at", nullable = false, updatable = false)
     private Instant dumpedAt;
 

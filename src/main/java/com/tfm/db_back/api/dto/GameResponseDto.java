@@ -11,6 +11,8 @@ import java.util.UUID;
  * Incluye metadatos de la entidad Game, la lista de participantes
  * y el último state_json conocido (puede ser null si no hay ningún volcado aún).
  * NUNCA expone la entidad JPA directamente.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 public record GameResponseDto(
         UUID id,

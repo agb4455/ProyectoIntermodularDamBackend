@@ -6,6 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * Documento de MongoDB que representa un evento de batalla.
+ * Almacena detalles de los enfrentamientos entre clanes para análisis histórico.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 @Document(collection = "battle_events")
 public class BattleEventDocument {
 

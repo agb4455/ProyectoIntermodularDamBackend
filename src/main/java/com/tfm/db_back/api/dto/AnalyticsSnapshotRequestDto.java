@@ -6,6 +6,12 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+/**
+ * DTO para la recepción de instantáneas de analítica (MongoDB).
+ * Contiene el estado completo de una partida en un momento dado para su posterior análisis.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 public record AnalyticsSnapshotRequestDto(
         @NotBlank String gameId,
         @NotBlank String snapshotAt,

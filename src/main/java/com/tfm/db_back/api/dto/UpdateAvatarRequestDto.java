@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 /**
  * DTO de petición para actualizar la URL del avatar de un usuario.
  * La URL es generada por el Middle Server tras subir la imagen a MinIO.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 public record UpdateAvatarRequestDto(
 

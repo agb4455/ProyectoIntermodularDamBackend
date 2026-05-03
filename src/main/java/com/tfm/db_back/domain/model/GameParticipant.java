@@ -13,29 +13,42 @@ import java.util.UUID;
  * Entidad JPA que representa un participante en una partida.
  * Mapea la tabla "game_participants" definida en V1__initial_schema.sql.
  * Relación: una partida tiene entre 2 y 6 participantes.
+ *
+ * @author Adrián González Blando
  */
 @Entity
 @Table(name = "game_participants")
 public class GameParticipant {
 
+    /**
+     * Identificador único del participante (UUID).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
 
-    // FK a la partida a la que pertenece este participante
+    /**
+     * Identificador de la partida a la que pertenece el participante.
+     */
     @Column(name = "game_id", nullable = false, updatable = false)
     private UUID gameId;
 
-    // FK al personaje que participa
+    /**
+     * Identificador del personaje que participa en la partida.
+     */
     @Column(name = "character_id", nullable = false, updatable = false)
     private UUID characterId;
 
-    // Orden de entrada (1-based) — usado para asignar posición inicial en el mapa
+    /**
+     * Orden de entrada en la partida (usado para posicionamiento).
+     */
     @Column(name = "join_order", nullable = false)
     private short joinOrder;
 
-    // Indica si el participante ha sido eliminado de la partida
+    /**
+     * Indica si el jugador ha sido eliminado de la partida.
+     */
     @Column(nullable = false)
     private boolean eliminated;
 

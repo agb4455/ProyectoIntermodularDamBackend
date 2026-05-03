@@ -9,9 +9,9 @@ import java.util.UUID;
 
 /**
  * Interfaz del servicio de ciclo de vida de partidas.
- * dev_a implementa esta interfaz; dev_b la consume en GameController.
- * Acuerdo de Interface First — ambos desarrolladores deben acordar
- * las firmas antes de comenzar la implementación en paralelo.
+ * Define las operaciones para crear, recuperar y finalizar partidas.
+ *
+ * @author Adrián González Blando
  */
 public interface GameService {
 

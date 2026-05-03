@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Implementación del servicio de personajes.
+ * Gestiona la lógica de negocio para la creación y consulta de personajes.
+ *
+ * @author Adrián González Blando
+ */
 @Service
 public class CharacterServiceImpl implements CharacterService {
 

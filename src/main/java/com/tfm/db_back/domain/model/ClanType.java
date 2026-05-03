@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Tipos de clanes disponibles en el juego.
+ * Cada clan tiene sus propias ventajas y tropas.
+ *
+ * @author Adrián González Blando
+ * @author Adriana Cabaleiro Álvarez
  */
 public enum ClanType {
     BERSERKERS,

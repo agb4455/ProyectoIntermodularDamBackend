@@ -20,6 +20,8 @@ import java.util.UUID;
 /**
  * Implementación del servicio de ciclo de vida de partidas.
  * Gestiona creación, consulta y finalización de partidas en PostgreSQL.
+ *
+ * @author Adrián González Blando
  */
 @Service
 public class GameServiceImpl implements GameService {

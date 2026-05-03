@@ -18,39 +18,55 @@ import java.util.UUID;
  * Mapea la tabla "games" definida en V1__initial_schema.sql.
  * El Middle Server es la fuente de verdad del estado en vivo —
  * esta entidad solo almacena metadatos de ciclo de vida.
+ *
+ * @author Adrián González Blando
  */
 @Entity
 @Table(name = "games")
 public class Game {
 
-    // UUID autogenerado por la base de datos — nunca auto-increment (security.md §1)
+    /**
+     * Identificador único de la partida (UUID).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
 
-    // Estado de la partida: waiting | preparation | war | end | finished
+    /**
+     * Estado actual de la partida.
+     */
     @Enumerated(jakarta.persistence.EnumType.STRING)
     @Column(nullable = false, length = 20)
     private GameStatus status;
 
-    // Número máximo de jugadores permitidos (2-6 según arquitectura §7)
+    /**
+     * Número máximo de jugadores permitidos.
+     */
     @Column(name = "max_players", nullable = false)
     private short maxPlayers;
 
-    // Fecha de creación del registro — se rellena en @PrePersist
+    /**
+     * Fecha y hora de creación de la partida.
+     */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    // Fecha de inicio (cuando comienza la fase de preparación)
+    /**
+     * Fecha y hora en que comenzó la partida.
+     */
     @Column(name = "started_at")
     private Instant startedAt;
 
-    // Fecha de finalización — nulo hasta que el Middle notifique el fin
+    /**
+     * Fecha y hora en que finalizó la partida.
+     */
     @Column(name = "ended_at")
     private Instant endedAt;
 
-    // UUID del personaje ganador — nulo hasta que la partida termine
+    /**
+     * Identificador del personaje que ganó la partida.
+     */
     @Column(name = "winner_character_id")
     private UUID winnerCharacterId;
 

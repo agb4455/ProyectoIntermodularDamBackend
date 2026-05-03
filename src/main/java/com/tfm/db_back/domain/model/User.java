@@ -15,32 +15,48 @@ import java.util.UUID;
  * Entidad JPA que representa a un usuario del sistema.
  * Mapea la tabla "users" definida en V1__initial_schema.sql.
  * NUNCA se devuelve directamente desde el controlador — siempre se mapea a UserResponseDto.
+ *
+ * @author Adrián González Blando
  */
 @Entity
 @Table(name = "users")
 public class User {
 
-    // UUID autogenerado por la base de datos (gen_random_uuid()) — nunca auto-increment (security.md §1)
+    /**
+     * Identificador único del usuario (UUID).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
 
+    /**
+     * Nombre de usuario único para el login.
+     */
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
+    /**
+     * Correo electrónico único para notificaciones y contacto.
+     */
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    // Hash BCrypt del password — NUNCA se devuelve en ningún DTO de respuesta (security.md §3)
+    /**
+     * Hash de la contraseña del usuario (BCrypt).
+     */
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    // URL del avatar almacenado en MinIO — nullable hasta que el usuario suba uno
+    /**
+     * URL del avatar del usuario en el almacenamiento de objetos.
+     */
     @Column(name = "avatar_url", length = 512)
     private String avatarUrl;
 
-    // Fecha de creación — se inicializa automáticamente antes de persistir
+    /**
+     * Fecha y hora de creación del registro.
+     */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

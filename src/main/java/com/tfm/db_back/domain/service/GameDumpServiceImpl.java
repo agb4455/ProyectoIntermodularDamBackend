@@ -14,6 +14,8 @@ import java.util.UUID;
  * Implementación del servicio de volcados de estado de partida.
  * REGLA CRÍTICA: Solo se realizan INSERTs en game_state_dumps.
  * El historial completo se conserva — nunca UPDATE ni DELETE.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 @Service
 public class GameDumpServiceImpl implements GameDumpService {

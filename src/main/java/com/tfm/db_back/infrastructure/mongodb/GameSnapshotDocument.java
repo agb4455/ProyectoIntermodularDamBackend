@@ -6,6 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * Documento de MongoDB que representa una instantánea (snapshot) del estado del juego.
+ * Captura el estado completo de todos los jugadores en un momento determinado para analíticas.
+ *
+ * @author Adriana Cabaleiro Álvarez
+ */
 @Document(collection = "game_snapshots")
 public class GameSnapshotDocument {
 

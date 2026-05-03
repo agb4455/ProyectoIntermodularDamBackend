@@ -10,6 +10,8 @@ import java.util.UUID;
  * Repositorio JPA para la entidad GameStateDump.
  * IMPORTANTE: Solo se realizan INSERTs. Nunca UPDATE ni DELETE.
  * El historial completo se conserva — el Middle siempre lee el más reciente.
+ *
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface GameStateDumpRepository extends JpaRepository<GameStateDump, UUID> {
 

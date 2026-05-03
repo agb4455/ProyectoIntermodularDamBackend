@@ -7,8 +7,9 @@ import java.util.UUID;
 
 /**
  * Contrato del servicio de usuarios.
- * Acordado entre dev_a (implementación) y dev_b (controlador) antes de programar en paralelo.
- * dev_b puede usar @MockBean de esta interfaz en sus tests de controlador.
+ * Define las operaciones permitidas sobre la entidad User.
+ *
+ * @author Adrián González Blando
  */
 public interface UserService {
 
