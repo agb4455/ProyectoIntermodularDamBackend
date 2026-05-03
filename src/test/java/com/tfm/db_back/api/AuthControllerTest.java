@@ -1,6 +1,7 @@
 package com.tfm.db_back.api;
 
 import com.tfm.db_back.domain.service.HandshakeService;
+import com.tfm.db_back.domain.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +27,12 @@ class AuthControllerTest {
     @Mock
     private HandshakeService handshakeService;
 
+    @Mock
+    private UserService userService;
+
     @BeforeEach
     void setUp() {
-        AuthController authController = new AuthController(handshakeService, "test-secret-minimo-32-chars-ok-fixed!!");
+        AuthController authController = new AuthController(handshakeService, userService, "test-secret-minimo-32-chars-ok-fixed!!");
         mockMvc = MockMvcBuilders.standaloneSetup(authController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
