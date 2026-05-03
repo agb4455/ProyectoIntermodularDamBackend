@@ -34,6 +34,14 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("NOT_FOUND", ex.getMessage(), Instant.now()));
     }
 
+    // Fallo de autenticación → 401
+    @ExceptionHandler(com.tfm.db_back.domain.exception.UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(com.tfm.db_back.domain.exception.UnauthorizedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("UNAUTHORIZED", ex.getMessage(), Instant.now()));
+    }
+
     // Conflicto de unicidad → 409
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex) {

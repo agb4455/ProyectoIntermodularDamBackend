@@ -79,13 +79,13 @@ public class GameController {
     }
 
     /**
-     * PUT /internal/games/{id}/state
+     * PUT /internal/games/{id}/dump
      * Inserta un nuevo volcado del estado de la partida en game_state_dumps.
      * El Middle llama a este endpoint cada ~15 minutos (POSTGRES_DUMP_INTERVAL_MS).
      * El stateJson es un String opaco — el DB Server nunca lo procesa.
      * Devuelve 204 No Content al completar el INSERT.
      */
-    @PutMapping("/{id}/state")
+    @PutMapping("/{id}/dump")
     public ResponseEntity<Void> dumpState(@PathVariable UUID id,
                                           @Valid @RequestBody StateDumpRequestDto dto) {
         gameDumpService.dumpState(id, dto);

@@ -33,6 +33,14 @@ public interface UserService {
     UserResponseDto getByUsername(String username);
 
     /**
+     * Verifica las credenciales de un usuario.
+     * Usado por el Middle Server en el endpoint interno /internal/auth/verify.
+     * Lanza EntityNotFoundException (404) si el usuario no existe.
+     * Lanza UnauthorizedException (401) si la contraseña es incorrecta.
+     */
+    UserResponseDto verifyCredentials(String username, String password);
+
+    /**
      * Actualiza la URL del avatar de un usuario existente.
      * Lanza EntityNotFoundException (404) si el usuario no existe.
      */

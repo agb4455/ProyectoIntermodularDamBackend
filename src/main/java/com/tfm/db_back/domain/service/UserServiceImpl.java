@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Implementación del servicio de usuarios.
  * Contiene toda la lógica de negocio del dominio User.
@@ -21,6 +24,8 @@ import java.util.UUID;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
     // Bean PasswordEncoder definido en SecurityConfig — BCrypt con cost 12 (security.md §3)
@@ -77,6 +82,25 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado: " + username));
+        return toDto(user);
+    }
+
+    /**
+     * Verifica las credenciales de un usuario.
+     * @throws com.tfm.db_back.domain.exception.UnauthorizedException si la contraseña es incorrecta (→ 401)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDto verifyCredentials(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado: " + username));
+
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
+            log.warn("[Auth] Intento de login fallido para usuario: {} (Contraseña incorrecta)", username);
+            throw new com.tfm.db_back.domain.exception.UnauthorizedException("Credenciales inválidas");
+        }
+
+        log.info("[Auth] Credenciales verificadas exitosamente para usuario: {}", username);
         return toDto(user);
     }
 
