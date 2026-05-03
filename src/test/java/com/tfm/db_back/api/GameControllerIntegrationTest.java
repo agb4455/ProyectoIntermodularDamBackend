@@ -56,7 +56,7 @@ public class GameControllerIntegrationTest extends AbstractIntegrationTest {
         // 3. Dump State
         StateDumpRequestDto dumpDto = new StateDumpRequestDto("{\"status\":\"active\"}");
         HttpEntity<StateDumpRequestDto> dumpReq = new HttpEntity<>(dumpDto, authHeaders);
-        ResponseEntity<Void> putRes = restTemplate.exchange(baseUrl + "/internal/games/" + gameId + "/state", HttpMethod.PUT, dumpReq, Void.class);
+        ResponseEntity<Void> putRes = restTemplate.exchange(baseUrl + "/internal/games/" + gameId + "/dump", HttpMethod.PUT, dumpReq, Void.class);
         assertThat(putRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         // 4. Get Active Games

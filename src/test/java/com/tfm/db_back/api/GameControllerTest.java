@@ -175,7 +175,7 @@ class GameControllerTest {
                 .andExpect(jsonPath("$.code").value("NOT_FOUND"));
     }
 
-    // --- PUT /internal/games/{id}/state ---
+    // --- PUT /internal/games/{id}/dump ---
 
     @Test
     void dumpState_givenValidPayload_shouldReturn204() throws Exception {
@@ -187,7 +187,7 @@ class GameControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/internal/games/{id}/state", gameId)
+        mockMvc.perform(put("/internal/games/{id}/dump", gameId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isNoContent());
@@ -203,7 +203,7 @@ class GameControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/internal/games/{id}/state", gameId)
+        mockMvc.perform(put("/internal/games/{id}/dump", gameId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isBadRequest())
@@ -223,7 +223,7 @@ class GameControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/internal/games/{id}/state", gameId)
+        mockMvc.perform(put("/internal/games/{id}/dump", gameId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isNotFound())

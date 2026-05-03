@@ -2,7 +2,6 @@ package com.tfm.db_back;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
@@ -14,10 +13,7 @@ public abstract class AbstractIntegrationTest {
     @LocalServerPort
     protected int port;
 
-    @ServiceConnection
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
-
-    @ServiceConnection
     static final MongoDBContainer mongo = new MongoDBContainer("mongo:6.0");
 
     static {

@@ -6,8 +6,8 @@ spring:
   # Datasource — conexión a PostgreSQL
   datasource:
     url: ${POSTGRES_URL}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:password}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   
   # JPA — Flyway gestiona el schema, JPA solo valida
