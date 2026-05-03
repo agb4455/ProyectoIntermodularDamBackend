@@ -36,3 +36,5 @@ build/
 
 ### Local Environment Secrets ###
 .env
+
+src/main/resources/db/migration/V2__insert_admin_user.sql
