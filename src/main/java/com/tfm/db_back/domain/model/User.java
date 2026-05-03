@@ -61,24 +61,35 @@ public class User {
     private Instant createdAt;
 
     /**
+     * Rol del usuario (USER o ADMIN).
+     */
+    @Column(nullable = false, length = 20)
+    private String role;
+
+
+    /**
      * Establece la fecha de creación justo antes de la primera persistencia.
      * Equivalente a @CreatedDate de Spring Data Auditing sin necesidad de configurarlo.
      */
     @PrePersist
     void onCreate() {
         this.createdAt = Instant.now();
+        if (this.role == null) {
+            this.role = "USER";
+        }
     }
 
     public User() {
     }
 
-    public User(UUID id, String username, String email, String passwordHash, String avatarUrl, Instant createdAt) {
+    public User(UUID id, String username, String email, String passwordHash, String avatarUrl, Instant createdAt, String role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
         this.avatarUrl = avatarUrl;
         this.createdAt = createdAt;
+        this.role = role;
     }
 
     public UUID getId() {
@@ -127,5 +138,13 @@ public class User {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -16,7 +16,8 @@ public record UserResponseDto(
         String username,
         String email,
         String avatarUrl,
-        Instant createdAt
+        Instant createdAt,
+        String role
 
 ) {
 }

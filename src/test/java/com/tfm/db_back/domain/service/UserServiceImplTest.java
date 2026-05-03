@@ -60,7 +60,8 @@ class UserServiceImplTest {
                 EMAIL,
                 HASHED_PASSWORD,
                 AVATAR_URL,
-                Instant.now()
+                Instant.now(),
+                "USER"
         );
     }
 

@@ -51,7 +51,7 @@ class UserControllerTest {
                 .build();
                 
         testUserResponse = new UserResponseDto(
-                testId, "ragnar", "ragnar@lothbrok.com", "http://avatar.com/1", Instant.now()
+                testId, "ragnar", "ragnar@lothbrok.com", "http://avatar.com/1", Instant.now(), "USER"
         );
     }
 
