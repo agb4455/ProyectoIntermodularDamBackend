@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * END: Fase final (2 jugadores).
  * FINISHED: Partida terminada.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 public enum GameStatus {
     WAITING,

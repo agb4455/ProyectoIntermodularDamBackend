@@ -23,6 +23,7 @@ import java.util.UUID;
  * El campo state_json es un String opaco — el DB Server nunca lo deserializa.
  * PostgreSQL lo almacena como columna JSONB para optimizar consultas futuras.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Entity

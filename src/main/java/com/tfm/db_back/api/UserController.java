@@ -22,6 +22,7 @@ import java.util.UUID;
  * Capa fina — delega toda la lógica a UserService.
  * Protegido por HandshakeJwtFilter: solo el Middle Server puede llamar estos endpoints.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @RestController

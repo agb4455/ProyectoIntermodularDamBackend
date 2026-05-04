@@ -11,6 +11,7 @@ import java.util.UUID;
  * IMPORTANTE: Solo se realizan INSERTs. Nunca UPDATE ni DELETE.
  * El historial completo se conserva — el Middle siempre lee el más reciente.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public interface GameStateDumpRepository extends JpaRepository<GameStateDump, UUID> {

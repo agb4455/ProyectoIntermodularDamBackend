@@ -8,6 +8,7 @@ import java.util.UUID;
  * NUNCA incluye el campo passwordHash — es el contrato de seguridad más importante de este dominio.
  * Se devuelve envuelto en ApiResponse<UserResponseDto>.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record UserResponseDto(

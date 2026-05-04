@@ -13,6 +13,7 @@ import java.util.UUID;
  * DTO de entrada para crear una nueva partida.
  * El Middle Server envía este payload al crear la partida en su memoria.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record CreateGameRequestDto(

@@ -10,7 +10,8 @@ import java.util.UUID;
  * Repositorio JPA para la entidad GameParticipant.
  * Proporciona acceso a la tabla "game_participants" de PostgreSQL.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface GameParticipantRepository extends JpaRepository<GameParticipant, UUID> {
 

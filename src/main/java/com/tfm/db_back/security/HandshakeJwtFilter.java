@@ -25,6 +25,7 @@ import java.util.List;
  * Filtro JWT de handshake — intercepta todas las peticiones excepto POST /internal/auth/handshake.
  * Si el token es inválido o está ausente, devuelve 401 con ErrorResponse sin redirigir.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public class HandshakeJwtFilter extends OncePerRequestFilter {

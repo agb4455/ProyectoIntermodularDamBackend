@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
  * El Middle envía el GameState serializado como String JSON opaco cada ~15 minutos.
  * El DB Server lo persiste tal cual en la columna JSONB sin procesarlo.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record StateDumpRequestDto(

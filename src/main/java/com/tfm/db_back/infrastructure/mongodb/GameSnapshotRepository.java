@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Repositorio de MongoDB para la entidad GameSnapshotDocument.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Repository

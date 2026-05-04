@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controlador REST para la recepción de datos de analítica.
  * Procesa instantáneas del estado del juego y eventos de batalla para su almacenamiento en MongoDB.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @RestController

@@ -9,6 +9,7 @@ import java.util.UUID;
  * Define las operaciones para persistir y recuperar instantáneas del estado del juego.
  * Solo realiza INSERTs en game_state_dumps — nunca UPDATE ni DELETE.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public interface GameDumpService {

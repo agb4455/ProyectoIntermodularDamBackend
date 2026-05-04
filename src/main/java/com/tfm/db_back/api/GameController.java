@@ -26,6 +26,7 @@ import java.util.UUID;
  * Todos los endpoints requieren el handshake JWT (validado por HandshakeJwtFilter).
  * NUNCA devuelve entidades JPA — siempre usa GameResponseDto envuelto en ApiResponse.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @RestController

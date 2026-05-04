@@ -15,6 +15,7 @@ import java.util.UUID;
  * REGLA CRÍTICA: Solo se realizan INSERTs en game_state_dumps.
  * El historial completo se conserva — nunca UPDATE ni DELETE.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Service

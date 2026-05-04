@@ -16,7 +16,8 @@ import java.util.UUID;
  * Implementación del servicio de personajes.
  * Gestiona la lógica de negocio para la creación y consulta de personajes.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Service
 public class CharacterServiceImpl implements CharacterService {

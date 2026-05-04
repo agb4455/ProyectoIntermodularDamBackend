@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
  * DTO de petición para verificar credenciales de un usuario.
  * Usado por el Middle Server en el endpoint interno /internal/auth/verify.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record VerifyCredentialsRequestDto(

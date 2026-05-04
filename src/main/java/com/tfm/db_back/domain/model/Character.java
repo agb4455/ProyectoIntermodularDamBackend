@@ -17,7 +17,8 @@ import java.util.UUID;
  * Entidad JPA que representa a un personaje (Character) en el sistema.
  * Un personaje pertenece a un usuario y a un clan específico.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Entity
 @Table(name = "characters")

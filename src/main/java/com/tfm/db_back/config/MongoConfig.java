@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
  * Configuración de MongoDB y ejecución asíncrona para analíticas.
  * Habilita @EnableAsync para que las escrituras en MongoDB no bloqueen el flujo principal.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Configuration

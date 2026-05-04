@@ -11,7 +11,8 @@ import java.util.UUID;
  * Interfaz del servicio de ciclo de vida de partidas.
  * Define las operaciones para crear, recuperar y finalizar partidas.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface GameService {
 

@@ -14,7 +14,8 @@ import java.util.UUID;
  * Mapea la tabla "game_participants" definida en V1__initial_schema.sql.
  * Relación: una partida tiene entre 2 y 6 participantes.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Entity
 @Table(name = "game_participants")

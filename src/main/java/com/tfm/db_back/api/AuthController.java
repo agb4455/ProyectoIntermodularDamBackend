@@ -27,6 +27,7 @@ import java.time.Instant;
  * Controlador de autenticación interna.
  * Único endpoint público de la API — el Middle Server obtiene aquí su JWT de handshake.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @RestController

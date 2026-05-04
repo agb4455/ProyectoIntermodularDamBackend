@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
  * Validado con Bean Validation antes de llegar al servicio (security.md §4).
  * NUNCA se devuelve este DTO en la respuesta — se mapea a UserResponseDto.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record CreateUserRequestDto(

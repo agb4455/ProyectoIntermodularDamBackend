@@ -20,7 +20,8 @@ import org.slf4j.LoggerFactory;
  * Contiene toda la lógica de negocio del dominio User.
  * Los controladores NUNCA acceden directamente al repositorio.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Service
 public class UserServiceImpl implements UserService {

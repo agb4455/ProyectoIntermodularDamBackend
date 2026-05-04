@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Bean;
  * Clase principal de la aplicación DB Back.
  * Punto de entrada de Spring Boot para la capa de persistencia.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @SpringBootApplication
 public class DbBackApplication {

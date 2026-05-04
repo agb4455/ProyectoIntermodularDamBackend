@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
  * Contrato del servicio de analíticas.
  * Define las operaciones para el almacenamiento asíncrono de datos en MongoDB.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public interface AnalyticsService {

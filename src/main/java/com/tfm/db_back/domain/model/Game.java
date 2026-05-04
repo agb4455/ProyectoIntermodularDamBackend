@@ -19,7 +19,8 @@ import java.util.UUID;
  * El Middle Server es la fuente de verdad del estado en vivo —
  * esta entidad solo almacena metadatos de ciclo de vida.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Entity
 @Table(name = "games")

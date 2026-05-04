@@ -10,7 +10,8 @@ import java.util.UUID;
  * Contrato del servicio de personajes (Characters).
  * Define las operaciones para la gestión de personajes de los usuarios.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface CharacterService {
     

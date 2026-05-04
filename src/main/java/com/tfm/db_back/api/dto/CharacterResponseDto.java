@@ -8,6 +8,7 @@ import java.util.UUID;
 /**
  * DTO de respuesta para representar un personaje.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record CharacterResponseDto(

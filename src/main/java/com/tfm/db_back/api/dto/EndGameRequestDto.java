@@ -7,6 +7,7 @@ import java.util.UUID;
  * El Middle Server envía el UUID del personaje ganador al terminar la partida.
  * winnerCharacterId puede ser null en caso de empate o fin por abandono.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record EndGameRequestDto(

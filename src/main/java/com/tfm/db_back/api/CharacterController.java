@@ -15,6 +15,7 @@ import java.util.UUID;
  * Controlador REST para la gestión de personajes (characters).
  * Permite la creación y consulta de personajes asociados a usuarios.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @RestController

@@ -10,6 +10,7 @@ import java.util.List;
  * DTO para la recepción de instantáneas de analítica (MongoDB).
  * Contiene el estado completo de una partida en un momento dado para su posterior análisis.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record AnalyticsSnapshotRequestDto(

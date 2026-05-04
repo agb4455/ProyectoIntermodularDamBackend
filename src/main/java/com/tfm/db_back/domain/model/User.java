@@ -16,7 +16,8 @@ import java.util.UUID;
  * Mapea la tabla "users" definida en V1__initial_schema.sql.
  * NUNCA se devuelve directamente desde el controlador — siempre se mapea a UserResponseDto.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Entity
 @Table(name = "users")

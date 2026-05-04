@@ -9,7 +9,8 @@ import java.util.UUID;
  * Contrato del servicio de usuarios.
  * Define las operaciones permitidas sobre la entidad User.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 public interface UserService {
 

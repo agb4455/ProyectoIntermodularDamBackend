@@ -10,6 +10,7 @@ import java.util.List;
  * Documento de MongoDB que representa un evento de batalla.
  * Almacena detalles de los enfrentamientos entre clanes para análisis histórico.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Document(collection = "battle_events")

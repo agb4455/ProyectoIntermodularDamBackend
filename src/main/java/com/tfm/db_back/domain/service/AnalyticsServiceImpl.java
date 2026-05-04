@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * Implementación del servicio de analíticas.
  * Procesa y persiste instantáneas y eventos de batalla en MongoDB de forma asíncrona.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 @Service

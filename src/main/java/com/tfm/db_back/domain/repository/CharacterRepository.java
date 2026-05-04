@@ -11,7 +11,8 @@ import java.util.UUID;
  * Repositorio JPA para la entidad Character.
  * Permite gestionar la persistencia de los personajes de los jugadores.
  *
- * @author Adrián González Blando
+ * @author Adrián González Blanco
+ * @author Adriana Cabaleiro Álvarez
  */
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, UUID> {

@@ -9,6 +9,7 @@ import java.util.UUID;
 /**
  * DTO para la petición de creación de un nuevo personaje.
  *
+ * @author Adrián González Blanco
  * @author Adriana Cabaleiro Álvarez
  */
 public record CreateCharacterRequestDto(
