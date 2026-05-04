@@ -106,4 +106,16 @@ public class GameController {
         GameResponseDto finished = gameService.getGame(id);
         return ResponseEntity.ok(new ApiResponse<>(finished));
     }
+
+    /**
+     * GET /internal/games/by-user/{userId}
+     * Recupera todas las partidas (activas o terminadas) de un usuario.
+     * Usado por el Middle para mostrar el historial y partidas en curso en el lobby.
+     */
+    @GetMapping("/by-user/{userId}")
+    public ResponseEntity<ApiResponse<List<GameResponseDto>>> getGamesByUser(
+            @PathVariable UUID userId) {
+        List<GameResponseDto> games = gameService.getGamesByUser(userId);
+        return ResponseEntity.ok(new ApiResponse<>(games));
+    }
 }

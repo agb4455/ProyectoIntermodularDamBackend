@@ -22,4 +22,16 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
      * Crítico para la recuperación del Middle tras un reinicio.
      */
     List<Game> findByStatusNot(GameStatus status);
+
+    /**
+     * Recupera todas las partidas en las que participa un usuario.
+     * Realiza un JOIN entre games, game_participants y characters.
+     */
+    @org.springframework.data.jpa.repository.Query(
+        "SELECT g FROM Game g " +
+        "JOIN GameParticipant gp ON g.id = gp.gameId " +
+        "JOIN Character c ON gp.characterId = c.id " +
+        "WHERE c.userId = :userId"
+    )
+    List<Game> findByUserId(UUID userId);
 }

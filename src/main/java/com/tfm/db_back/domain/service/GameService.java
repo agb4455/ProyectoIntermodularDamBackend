@@ -43,4 +43,10 @@ public interface GameService {
      * - ended_at → Instant.now()
      */
     void endGame(UUID id, EndGameRequestDto dto);
+
+    /**
+     * Recupera todas las partidas en las que participa un usuario.
+     * Útil para mostrar la lista de partidas en el lobby.
+     */
+    List<GameResponseDto> getGamesByUser(UUID userId);
 }

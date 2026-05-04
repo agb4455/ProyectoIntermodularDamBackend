@@ -129,6 +129,30 @@ public class GameServiceImpl implements GameService {
         gameRepository.save(game);
     }
 
+    /**
+     * Recupera todas las partidas en las que participa un usuario.
+     * Útil para mostrar la lista de partidas en el lobby del frontend.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<GameResponseDto> getGamesByUser(UUID userId) {
+        List<Game> games = gameRepository.findByUserId(userId);
+
+        return games.stream()
+                .map(game -> {
+                    List<GameParticipant> participants = participantRepository.findByGameId(game.getId());
+                    // Para la lista del lobby no solemos necesitar el stateJson completo (es pesado),
+                    // pero el DTO lo requiere. Pasamos null para optimizar si fuera necesario,
+                    // aunque por ahora seguimos el patrón de getActiveGames.
+                    String latestStateJson = dumpRepository
+                            .findFirstByGameIdOrderByDumpedAtDesc(game.getId())
+                            .map(dump -> dump.getStateJson())
+                            .orElse(null);
+                    return mapToResponseDto(game, participants, latestStateJson);
+                })
+                .toList();
+    }
+
     // --- Métodos privados de mapeo ---
 
     private GameResponseDto mapToResponseDto(Game game,
