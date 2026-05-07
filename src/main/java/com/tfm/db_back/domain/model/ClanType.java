@@ -14,9 +14,9 @@ public enum ClanType {
     BERSERKERS,
     VALKIRIAS,
     JARLS,
-    SKALDS,
-    SEIDR,
-    DRAUGR;
+    SOMBRAS,
+    FROST_GUARD,
+    STORM_BRINGERS;
 
     @JsonCreator
     public static ClanType fromString(String value) {
