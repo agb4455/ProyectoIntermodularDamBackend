@@ -108,6 +108,18 @@ public class GameController {
     }
 
     /**
+     * POST /internal/games/{id}/join
+     * Registra un nuevo personaje en la partida.
+     */
+    @PostMapping("/{id}/join")
+    public ResponseEntity<ApiResponse<GameResponseDto>> joinGame(
+            @PathVariable UUID id,
+            @RequestBody UUID characterId) {
+        GameResponseDto joined = gameService.joinGame(id, characterId);
+        return ResponseEntity.ok(new ApiResponse<>(joined));
+    }
+
+    /**
      * GET /internal/games/by-user/{userId}
      * Recupera todas las partidas (activas o terminadas) de un usuario.
      * Usado por el Middle para mostrar el historial y partidas en curso en el lobby.

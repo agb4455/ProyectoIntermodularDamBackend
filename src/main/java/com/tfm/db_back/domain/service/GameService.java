@@ -45,6 +45,12 @@ public interface GameService {
     void endGame(UUID id, EndGameRequestDto dto);
 
     /**
+     * Registra un nuevo participante en una partida existente.
+     * Lanza excepción si la partida está llena o el personaje ya participa.
+     */
+    GameResponseDto joinGame(UUID gameId, UUID characterId);
+
+    /**
      * Recupera todas las partidas en las que participa un usuario.
      * Útil para mostrar la lista de partidas en el lobby.
      */

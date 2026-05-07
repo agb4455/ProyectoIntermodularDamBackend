@@ -130,6 +130,42 @@ public class GameServiceImpl implements GameService {
     }
 
     /**
+     * Registra un nuevo participante en una partida existente.
+     * Valida que haya hueco y que el personaje no esté ya dentro.
+     */
+    @Override
+    @Transactional
+    public GameResponseDto joinGame(UUID gameId, UUID characterId) {
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new EntityNotFoundException("Partida no encontrada: " + gameId));
+
+        if (game.getStatus() != GameStatus.WAITING) {
+            throw new IllegalStateException("Solo puedes unirte a partidas en fase de espera");
+        }
+
+        List<GameParticipant> participants = participantRepository.findByGameId(gameId);
+        
+        if (participants.size() >= game.getMaxPlayers()) {
+            throw new IllegalStateException("La partida está llena");
+        }
+
+        boolean alreadyIn = participants.stream()
+                .anyMatch(p -> p.getCharacterId().equals(characterId));
+        if (alreadyIn) {
+            return getGame(gameId); // Ya está dentro, retornamos estado actual
+        }
+
+        GameParticipant newParticipant = new GameParticipant(
+                gameId,
+                characterId,
+                (short) (participants.size() + 1)
+        );
+        participantRepository.save(newParticipant);
+
+        return getGame(gameId);
+    }
+
+    /**
      * Recupera todas las partidas en las que participa un usuario.
      * Útil para mostrar la lista de partidas en el lobby del frontend.
      */
