@@ -26,7 +26,7 @@ public record CreateGameRequestDto(
 
         // Lista de UUIDs de personajes que participan en la partida
         @NotEmpty(message = "La lista de characterIds no puede estar vacía")
-        @Size(min = 2, max = 6, message = "Debe haber entre 2 y 6 participantes")
+        @Size(min = 1, max = 6, message = "Debe haber entre 1 y 6 participantes")
         List<UUID> characterIds
 ) {
 }
