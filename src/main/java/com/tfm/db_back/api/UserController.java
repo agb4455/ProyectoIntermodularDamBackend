@@ -1,8 +1,10 @@
 package com.tfm.db_back.api;
 
 import com.tfm.db_back.api.dto.ApiResponse;
+import com.tfm.db_back.api.dto.ChangePasswordRequestDto;
 import com.tfm.db_back.api.dto.CreateUserRequestDto;
 import com.tfm.db_back.api.dto.UpdateAvatarRequestDto;
+import com.tfm.db_back.api.dto.UpdateEmailRequestDto;
 import com.tfm.db_back.api.dto.UserResponseDto;
 import com.tfm.db_back.domain.service.UserService;
 import jakarta.validation.Valid;
@@ -81,6 +83,34 @@ public class UserController {
             @Valid @RequestBody UpdateAvatarRequestDto dto) {
 
         userService.updateAvatar(id, dto.avatarUrl());
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * PUT /internal/users/{id}/password
+     * Cambia la contraseña del usuario verificando primero la actual (security.md §3).
+     * Devuelve 204 No Content si la operación fue exitosa.
+     */
+    @PutMapping("/{id}/password")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable UUID id,
+            @Valid @RequestBody ChangePasswordRequestDto dto) {
+
+        userService.changePassword(id, dto.currentPassword(), dto.newPassword());
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * PUT /internal/users/{id}/email
+     * Actualiza el email del usuario. Devuelve 409 si el email ya está en uso.
+     * Devuelve 204 No Content si la operación fue exitosa.
+     */
+    @PutMapping("/{id}/email")
+    public ResponseEntity<Void> updateEmail(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateEmailRequestDto dto) {
+
+        userService.updateEmail(id, dto.email());
         return ResponseEntity.noContent().build();
     }
 }

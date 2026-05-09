@@ -120,6 +120,46 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Cambia la contraseña de un usuario verificando primero la actual.
+     * @throws EntityNotFoundException si el UUID no existe (→ 404)
+     * @throws com.tfm.db_back.domain.exception.UnauthorizedException si la contraseña actual es incorrecta (→ 401)
+     */
+    @Override
+    @Transactional
+    public void changePassword(UUID id, String currentPassword, String newPassword) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " + id));
+
+        if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+            log.warn("[Auth] Intento de cambio de contraseña fallido para usuario: {} (Contraseña actual incorrecta)", user.getUsername());
+            throw new com.tfm.db_back.domain.exception.UnauthorizedException("La contraseña actual es incorrecta");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        log.info("[Auth] Contraseña actualizada exitosamente para usuario: {}", user.getUsername());
+    }
+
+    /**
+     * Actualiza el email de un usuario existente.
+     * @throws EntityNotFoundException si el UUID no existe (→ 404)
+     * @throws ConflictException si el email ya está en uso (→ 409)
+     */
+    @Override
+    @Transactional
+    public void updateEmail(UUID id, String newEmail) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " + id));
+
+        // Verificar que el email no esté en uso por otro usuario
+        if (userRepository.existsByEmail(newEmail)) {
+            throw new ConflictException("El email '" + newEmail + "' ya está registrado");
+        }
+
+        user.setEmail(newEmail);
+        log.info("[User] Email actualizado exitosamente para usuario: {}", user.getUsername());
+    }
+
+    /**
      * Mapea una entidad User a su DTO de respuesta.
      * GARANTIZA que passwordHash nunca aparece en la respuesta (security.md §3, §8).
      */

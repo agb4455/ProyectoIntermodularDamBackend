@@ -46,4 +46,18 @@ public interface UserService {
      * Lanza EntityNotFoundException (404) si el usuario no existe.
      */
     void updateAvatar(UUID id, String avatarUrl);
+
+    /**
+     * Cambia la contraseña de un usuario verificando primero la actual (security.md §3).
+     * Lanza EntityNotFoundException (404) si el usuario no existe.
+     * Lanza UnauthorizedException (401) si la contraseña actual es incorrecta.
+     */
+    void changePassword(UUID id, String currentPassword, String newPassword);
+
+    /**
+     * Actualiza el email de un usuario existente.
+     * Lanza EntityNotFoundException (404) si el usuario no existe.
+     * Lanza ConflictException (409) si el email ya está en uso por otro usuario.
+     */
+    void updateEmail(UUID id, String newEmail);
 }
