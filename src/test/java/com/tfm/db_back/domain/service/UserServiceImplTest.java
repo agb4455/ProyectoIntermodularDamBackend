@@ -61,7 +61,8 @@ class UserServiceImplTest {
                 HASHED_PASSWORD,
                 AVATAR_URL,
                 Instant.now(),
-                "USER"
+                "USER",
+                false
         );
     }
 

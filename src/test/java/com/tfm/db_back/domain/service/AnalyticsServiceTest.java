@@ -2,6 +2,7 @@ package com.tfm.db_back.domain.service;
 
 import com.tfm.db_back.api.dto.AnalyticsSnapshotRequestDto;
 import com.tfm.db_back.infrastructure.mongodb.BattleEventRepository;
+import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotDocument;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,13 +22,15 @@ class AnalyticsServiceTest {
 
     private GameSnapshotRepository gameSnapshotRepository;
     private BattleEventRepository battleEventRepository;
+    private CharacterRepository characterRepository;
     private AnalyticsServiceImpl analyticsService;
 
     @BeforeEach
     void setUp() {
         gameSnapshotRepository = mock(GameSnapshotRepository.class);
         battleEventRepository = mock(BattleEventRepository.class);
-        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository);
+        characterRepository = mock(CharacterRepository.class);
+        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository, characterRepository);
     }
 
     @Test
