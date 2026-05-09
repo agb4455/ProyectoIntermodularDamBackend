@@ -29,11 +29,73 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final GameSnapshotRepository gameSnapshotRepository;
     private final BattleEventRepository battleEventRepository;
+    private final com.tfm.db_back.domain.repository.CharacterRepository characterRepository;
 
     public AnalyticsServiceImpl(GameSnapshotRepository gameSnapshotRepository,
-                                BattleEventRepository battleEventRepository) {
+                                BattleEventRepository battleEventRepository,
+                                com.tfm.db_back.domain.repository.CharacterRepository characterRepository) {
         this.gameSnapshotRepository = gameSnapshotRepository;
         this.battleEventRepository = battleEventRepository;
+        this.characterRepository = characterRepository;
+    }
+
+    @Override
+    public com.tfm.db_back.api.dto.UserStatsResponseDto getUserStats(java.util.UUID userId) {
+        List<com.tfm.db_back.domain.model.Character> characters = characterRepository.findByUserId(userId);
+        List<String> charIds = characters.stream()
+                .map(c -> c.getId().toString())
+                .collect(Collectors.toList());
+
+        if (charIds.isEmpty()) {
+            return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0);
+        }
+
+        List<BattleEventDocument> attackerEvents = battleEventRepository.findByAttackerCharacterIdIn(charIds);
+        List<BattleEventDocument> defenderEvents = battleEventRepository.findByDefenderCharacterIdIn(charIds);
+
+        long totalWins = attackerEvents.stream()
+                .filter(e -> "VICTORY".equalsIgnoreCase(e.getOutcome()))
+                .count();
+
+        long totalAttacks = attackerEvents.size();
+
+        long troopsLostAsAttacker = attackerEvents.stream()
+                .mapToLong(e -> e.getAttackerTroopsLost() != null ? e.getAttackerTroopsLost().size() : 0)
+                .sum();
+        long troopsLostAsDefender = defenderEvents.stream()
+                .mapToLong(e -> e.getDefenderTroopsLost() != null ? e.getDefenderTroopsLost().size() : 0)
+                .sum();
+        long totalTroopsLost = troopsLostAsAttacker + troopsLostAsDefender;
+
+        // Estimar tropas entrenadas sumando tropas únicas vistas en snapshots
+        List<GameSnapshotDocument> snapshots = gameSnapshotRepository.findByPlayersCharacterIdIn(charIds);
+        long totalTrained = snapshots.stream()
+                .flatMap(s -> s.getPlayers().stream())
+                .filter(p -> charIds.contains(p.getCharacterId()))
+                .flatMap(p -> p.getTroops().stream())
+                .map(t -> t.getTroopId())
+                .distinct()
+                .count();
+
+        // Créditos totales ganados (estimado por el máximo visto en cualquier snapshot)
+        long totalCreditsEarned = snapshots.stream()
+                .flatMap(s -> s.getPlayers().stream())
+                .filter(p -> charIds.contains(p.getCharacterId()))
+                .mapToLong(p -> p.getEconomicCredits())
+                .max()
+                .orElse(0);
+
+        // Tiempo de juego estimado (número de snapshots * intervalo de 2h aprox)
+        long totalPlayTimeMinutes = snapshots.size() * 120L; 
+
+        return new com.tfm.db_back.api.dto.UserStatsResponseDto(
+                totalWins,
+                totalAttacks,
+                totalTroopsLost,
+                totalTrained,
+                totalCreditsEarned,
+                totalPlayTimeMinutes
+        );
     }
 
     @Override

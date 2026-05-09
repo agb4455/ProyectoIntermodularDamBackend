@@ -18,7 +18,8 @@ public record UserResponseDto(
         String email,
         String avatarUrl,
         Instant createdAt,
-        String role
+        String role,
+        boolean isBanned
 
 ) {
 }

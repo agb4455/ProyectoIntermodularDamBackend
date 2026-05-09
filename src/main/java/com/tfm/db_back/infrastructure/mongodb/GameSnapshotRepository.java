@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GameSnapshotRepository extends MongoRepository<GameSnapshotDocument, String> {
+    
+    java.util.List<GameSnapshotDocument> findByPlayersCharacterIdIn(java.util.Collection<String> characterIds);
 }

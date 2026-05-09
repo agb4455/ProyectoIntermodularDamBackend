@@ -13,4 +13,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface AnalyticsService {
     CompletableFuture<Void> saveSnapshot(AnalyticsSnapshotRequestDto dto);
+
+    com.tfm.db_back.api.dto.UserStatsResponseDto getUserStats(java.util.UUID userId);
 }

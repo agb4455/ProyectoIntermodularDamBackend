@@ -159,6 +159,44 @@ public class UserServiceImpl implements UserService {
         log.info("[User] Email actualizado exitosamente para usuario: {}", user.getUsername());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public long getTotalUsers() {
+        return userRepository.count();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long getBannedUsersCount() {
+        return userRepository.countByIsBannedTrue();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public java.util.List<UserResponseDto> getAllUsers() {
+        return userRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(this::toDto)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void banUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " + id));
+        user.setBanned(true);
+        log.info("[Admin] Usuario baneado: {}", user.getUsername());
+    }
+
+    @Override
+    @Transactional
+    public void unbanUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " + id));
+        user.setBanned(false);
+        log.info("[Admin] Usuario desbaneado: {}", user.getUsername());
+    }
+
     /**
      * Mapea una entidad User a su DTO de respuesta.
      * GARANTIZA que passwordHash nunca aparece en la respuesta (security.md §3, §8).
@@ -170,7 +208,8 @@ public class UserServiceImpl implements UserService {
                 user.getEmail(),
                 user.getAvatarUrl(),
                 user.getCreatedAt(),
-                user.getRole()
+                user.getRole(),
+                user.isBanned()
         );
     }
 }

@@ -24,4 +24,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     // Validación de unicidad de email antes de crear un usuario
     boolean existsByEmail(String email);
+
+    // Conteo de usuarios baneados para estadísticas de administrador
+    long countByIsBannedTrue();
+
+    // Listado de usuarios ordenados por fecha de creación (más recientes primero)
+    java.util.List<User> findAllByOrderByCreatedAtDesc();
 }

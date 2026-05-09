@@ -60,4 +60,29 @@ public interface UserService {
      * Lanza ConflictException (409) si el email ya está en uso por otro usuario.
      */
     void updateEmail(UUID id, String newEmail);
+
+    /**
+     * Devuelve el número total de usuarios.
+     */
+    long getTotalUsers();
+
+    /**
+     * Devuelve el número de usuarios baneados.
+     */
+    long getBannedUsersCount();
+
+    /**
+     * Devuelve todos los usuarios del sistema.
+     */
+    java.util.List<UserResponseDto> getAllUsers();
+
+    /**
+     * Banea a un usuario por su ID.
+     */
+    void banUser(UUID id);
+
+    /**
+     * Desbanea a un usuario por su ID.
+     */
+    void unbanUser(UUID id);
 }

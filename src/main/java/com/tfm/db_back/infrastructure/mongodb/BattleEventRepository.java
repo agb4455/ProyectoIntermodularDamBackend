@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BattleEventRepository extends MongoRepository<BattleEventDocument, String> {
+    
+    java.util.List<BattleEventDocument> findByAttackerCharacterIdIn(java.util.Collection<String> characterIds);
+    
+    java.util.List<BattleEventDocument> findByDefenderCharacterIdIn(java.util.Collection<String> characterIds);
 }

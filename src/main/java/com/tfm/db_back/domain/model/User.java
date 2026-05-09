@@ -67,6 +67,12 @@ public class User {
     @Column(nullable = false, length = 20)
     private String role;
 
+    /**
+     * Indica si el usuario ha sido baneado del sistema.
+     */
+    @Column(name = "is_banned", nullable = false)
+    private boolean isBanned = false;
+
 
     /**
      * Establece la fecha de creación justo antes de la primera persistencia.
@@ -83,7 +89,7 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String username, String email, String passwordHash, String avatarUrl, Instant createdAt, String role) {
+    public User(UUID id, String username, String email, String passwordHash, String avatarUrl, Instant createdAt, String role, boolean isBanned) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -91,6 +97,7 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.createdAt = createdAt;
         this.role = role;
+        this.isBanned = isBanned;
     }
 
     public UUID getId() {
@@ -147,5 +154,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 }

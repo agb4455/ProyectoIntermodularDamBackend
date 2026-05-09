@@ -189,6 +189,12 @@ public class GameServiceImpl implements GameService {
                 .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public long getTotalGamesCount() {
+        return gameRepository.count();
+    }
+
     // --- Métodos privados de mapeo ---
 
     private GameResponseDto mapToResponseDto(Game game,

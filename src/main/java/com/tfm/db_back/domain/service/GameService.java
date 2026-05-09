@@ -55,4 +55,9 @@ public interface GameService {
      * Útil para mostrar la lista de partidas en el lobby.
      */
     List<GameResponseDto> getGamesByUser(UUID userId);
+
+    /**
+     * Devuelve el número total de partidas registradas.
+     */
+    long getTotalGamesCount();
 }
