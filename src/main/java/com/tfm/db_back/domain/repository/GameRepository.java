@@ -34,4 +34,9 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
         "WHERE c.userId = :userId"
     )
     List<Game> findByUserId(UUID userId);
+
+    /**
+     * Cuenta el número de partidas ganadas por una lista de personajes.
+     */
+    long countByWinnerCharacterIdIn(List<UUID> characterIds);
 }

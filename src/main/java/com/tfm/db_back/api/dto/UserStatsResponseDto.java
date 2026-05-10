@@ -9,5 +9,6 @@ public record UserStatsResponseDto(
     long totalTroopsLost,
     long totalTrained,
     long totalCreditsEarned,
-    long totalPlayTimeMinutes
+    long totalPlayTimeMinutes,
+    long totalTroopsDeployed
 ) {}

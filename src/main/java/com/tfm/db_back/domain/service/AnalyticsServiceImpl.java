@@ -30,13 +30,16 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private final GameSnapshotRepository gameSnapshotRepository;
     private final BattleEventRepository battleEventRepository;
     private final com.tfm.db_back.domain.repository.CharacterRepository characterRepository;
+    private final com.tfm.db_back.domain.repository.GameRepository gameRepository;
 
     public AnalyticsServiceImpl(GameSnapshotRepository gameSnapshotRepository,
                                 BattleEventRepository battleEventRepository,
-                                com.tfm.db_back.domain.repository.CharacterRepository characterRepository) {
+                                com.tfm.db_back.domain.repository.CharacterRepository characterRepository,
+                                com.tfm.db_back.domain.repository.GameRepository gameRepository) {
         this.gameSnapshotRepository = gameSnapshotRepository;
         this.battleEventRepository = battleEventRepository;
         this.characterRepository = characterRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .collect(Collectors.toList());
 
         if (charIds.isEmpty()) {
-            return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0);
+            return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0, 0);
         }
 
         // Obtener todos los snapshots donde participó el usuario
@@ -61,34 +64,32 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                         (s1, s2) -> s1.getSnapshotAt().isAfter(s2.getSnapshotAt()) ? s1 : s2
                 ));
 
-        long totalWins = 0;
+        // Victorias reales desde PostgreSQL (partidas ganadas)
+        List<java.util.UUID> charUuids = characters.stream().map(com.tfm.db_back.domain.model.Character::getId).collect(Collectors.toList());
+        long totalWins = gameRepository.countByWinnerCharacterIdIn(charUuids);
+
         long totalAttacks = 0;
         long totalTroopsLost = 0;
         long totalTrained = 0;
         long totalCreditsEarned = 0;
-        long totalPlayTimeMinutes = latestSnapshotsPerGame.size() * 120L; // Estimación base
+        long totalTroopsDeployed = 0;
+        long totalPlayTimeMs = 0;
 
         for (GameSnapshotDocument snapshot : latestSnapshotsPerGame.values()) {
-            snapshot.getPlayers().stream()
+            GameSnapshotDocument.PlayerSnapshot player = snapshot.getPlayers().stream()
                     .filter(p -> charIds.contains(p.getCharacterId()))
                     .findFirst()
-                    .ifPresent(p -> {
-                        if (p.getStats() != null) {
-                            totalTrained += p.getStats().getTotalTroopsTrained();
-                            totalCreditsEarned += p.getStats().getTotalEconomicCreditsEarned();
-                            totalTroopsLost += p.getStats().getTotalTroopsLost();
-                        }
-                    });
-            
-            // Para victorias y ataques usamos los eventos de batalla (más preciso)
-            List<BattleEventDocument> attackerEvents = battleEventRepository.findByAttackerCharacterIdIn(charIds).stream()
-                    .filter(e -> snapshot.getGameId().equals(e.getGameId()))
-                    .collect(Collectors.toList());
-            
-            totalAttacks += attackerEvents.size();
-            totalWins += attackerEvents.stream()
-                    .filter(e -> "VICTORY".equalsIgnoreCase(e.getOutcome()) || "ATTACKER_WIN".equalsIgnoreCase(e.getOutcome()))
-                    .count();
+                    .orElse(null);
+
+            if (player != null && player.getStats() != null) {
+                GameSnapshotDocument.ParticipantStats stats = player.getStats();
+                totalTrained += stats.getTotalTroopsTrained();
+                totalCreditsEarned += stats.getTotalEconomicCreditsEarned();
+                totalTroopsLost += stats.getTotalTroopsLost();
+                totalAttacks += stats.getTotalAttacksLaunched();
+                totalTroopsDeployed += stats.getTotalTroopsDeployed();
+                totalPlayTimeMs += stats.getTimePlayedMs();
+            }
         }
 
         return new com.tfm.db_back.api.dto.UserStatsResponseDto(
@@ -97,7 +98,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 totalTroopsLost,
                 totalTrained,
                 totalCreditsEarned,
-                totalPlayTimeMinutes
+                totalPlayTimeMs / 60000, // Convertir Ms a Minutos
+                totalTroopsDeployed
         );
     }
 
@@ -109,7 +111,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .collect(Collectors.toList());
 
         if (charIds.isEmpty()) {
-            return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0);
+            return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0, 0);
         }
 
         return gameSnapshotRepository.findFirstByGameIdOrderBySnapshotAtDesc(gameId.toString())
@@ -120,29 +122,27 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                             .orElse(null);
 
                     if (player == null || player.getStats() == null) {
-                        return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0);
+                        return new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0, 0);
                     }
 
                     GameSnapshotDocument.ParticipantStats stats = player.getStats();
 
-                    List<BattleEventDocument> attackerEvents = battleEventRepository.findByAttackerCharacterIdIn(charIds).stream()
-                            .filter(e -> gameId.toString().equals(e.getGameId()))
-                            .collect(Collectors.toList());
-
-                    long totalWins = attackerEvents.stream()
-                            .filter(e -> "VICTORY".equalsIgnoreCase(e.getOutcome()) || "ATTACKER_WIN".equalsIgnoreCase(e.getOutcome()))
-                            .count();
+                    // Verificar si ganó la partida en PostgreSQL
+                    long totalWins = gameRepository.findById(gameId)
+                            .map(g -> g.getWinnerCharacterId() != null && charIds.contains(g.getWinnerCharacterId().toString()) ? 1L : 0L)
+                            .orElse(0L);
 
                     return new com.tfm.db_back.api.dto.UserStatsResponseDto(
                             totalWins,
-                            attackerEvents.size(),
+                            stats.getTotalAttacksLaunched(),
                             stats.getTotalTroopsLost(),
                             stats.getTotalTroopsTrained(),
                             stats.getTotalEconomicCreditsEarned(),
-                            0
+                            stats.getTimePlayedMs() / 60000,
+                            stats.getTotalTroopsDeployed()
                     );
                 })
-                .orElse(new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0));
+                .orElse(new com.tfm.db_back.api.dto.UserStatsResponseDto(0, 0, 0, 0, 0, 0, 0));
     }
 
     @Override
@@ -194,7 +194,9 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                                     p.stats().totalAttacksLaunched(),
                                     p.stats().totalDamageDealt(),
                                     p.stats().totalDamageReceived(),
-                                    p.stats().totalTroopsLost()
+                                    p.stats().totalTroopsLost(),
+                                    p.stats().totalTroopsDeployed(),
+                                    p.stats().timePlayedMs()
                             )
                     );
                 }).collect(Collectors.toList());

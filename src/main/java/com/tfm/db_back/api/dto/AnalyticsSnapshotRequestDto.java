@@ -39,7 +39,9 @@ public record AnalyticsSnapshotRequestDto(
             int totalAttacksLaunched,
             int totalDamageDealt,
             int totalDamageReceived,
-            int totalTroopsLost
+            int totalTroopsLost,
+            int totalTroopsDeployed,
+            long timePlayedMs
     ) {}
 
     public record TroopSnapshotDto(

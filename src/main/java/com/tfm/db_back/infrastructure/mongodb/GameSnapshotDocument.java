@@ -182,13 +182,16 @@ public class GameSnapshotDocument {
         private int totalDamageDealt;
         private int totalDamageReceived;
         private int totalTroopsLost;
+        private int totalTroopsDeployed;
+        private long timePlayedMs;
 
         public ParticipantStats() {
         }
 
         public ParticipantStats(long totalEconomicCreditsEarned, long totalResearchCreditsEarned,
                                 int totalTroopsTrained, int totalAttacksLaunched, int totalDamageDealt,
-                                int totalDamageReceived, int totalTroopsLost) {
+                                int totalDamageReceived, int totalTroopsLost, int totalTroopsDeployed,
+                                long timePlayedMs) {
             this.totalEconomicCreditsEarned = totalEconomicCreditsEarned;
             this.totalResearchCreditsEarned = totalResearchCreditsEarned;
             this.totalTroopsTrained = totalTroopsTrained;
@@ -196,6 +199,8 @@ public class GameSnapshotDocument {
             this.totalDamageDealt = totalDamageDealt;
             this.totalDamageReceived = totalDamageReceived;
             this.totalTroopsLost = totalTroopsLost;
+            this.totalTroopsDeployed = totalTroopsDeployed;
+            this.timePlayedMs = timePlayedMs;
         }
 
         public long getTotalEconomicCreditsEarned() {
@@ -252,6 +257,22 @@ public class GameSnapshotDocument {
 
         public void setTotalTroopsLost(int totalTroopsLost) {
             this.totalTroopsLost = totalTroopsLost;
+        }
+
+        public int getTotalTroopsDeployed() {
+            return totalTroopsDeployed;
+        }
+
+        public void setTotalTroopsDeployed(int totalTroopsDeployed) {
+            this.totalTroopsDeployed = totalTroopsDeployed;
+        }
+
+        public long getTimePlayedMs() {
+            return timePlayedMs;
+        }
+
+        public void setTimePlayedMs(long timePlayedMs) {
+            this.timePlayedMs = timePlayedMs;
         }
     }
 
