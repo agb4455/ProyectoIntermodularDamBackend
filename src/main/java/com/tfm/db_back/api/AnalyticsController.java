@@ -43,4 +43,10 @@ public class AnalyticsController {
         UserStatsResponseDto stats = analyticsService.getUserStats(userId);
         return ResponseEntity.ok(new ApiResponse<>(stats));
     }
+
+    @GetMapping("/game/{gameId}/user/{userId}")
+    public ResponseEntity<ApiResponse<UserStatsResponseDto>> getGameStats(@PathVariable UUID gameId, @PathVariable UUID userId) {
+        UserStatsResponseDto stats = analyticsService.getGameStats(gameId, userId);
+        return ResponseEntity.ok(new ApiResponse<>(stats));
+    }
 }

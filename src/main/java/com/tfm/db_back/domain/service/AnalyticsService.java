@@ -15,4 +15,6 @@ public interface AnalyticsService {
     CompletableFuture<Void> saveSnapshot(AnalyticsSnapshotRequestDto dto);
 
     com.tfm.db_back.api.dto.UserStatsResponseDto getUserStats(java.util.UUID userId);
+
+    com.tfm.db_back.api.dto.UserStatsResponseDto getGameStats(java.util.UUID gameId, java.util.UUID userId);
 }

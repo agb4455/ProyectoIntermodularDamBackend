@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface GameSnapshotRepository extends MongoRepository<GameSnapshotDocument, String> {
     
     java.util.List<GameSnapshotDocument> findByPlayersCharacterIdIn(java.util.Collection<String> characterIds);
+
+    java.util.Optional<GameSnapshotDocument> findFirstByGameIdOrderBySnapshotAtDesc(String gameId);
 }

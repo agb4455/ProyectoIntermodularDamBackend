@@ -82,13 +82,14 @@ public class GameSnapshotDocument {
         private List<TroopSnapshot> troops;
         private List<String> unlockedResearches;
         private boolean eliminated;
+        private ParticipantStats stats;
 
         public PlayerSnapshot() {
         }
 
         public PlayerSnapshot(String characterId, String clanId, int economicCredits, int researchCredits,
                               int capitalHealth, List<TroopSnapshot> troops, List<String> unlockedResearches,
-                              boolean eliminated) {
+                              boolean eliminated, ParticipantStats stats) {
             this.characterId = characterId;
             this.clanId = clanId;
             this.economicCredits = economicCredits;
@@ -97,6 +98,7 @@ public class GameSnapshotDocument {
             this.troops = troops;
             this.unlockedResearches = unlockedResearches;
             this.eliminated = eliminated;
+            this.stats = stats;
         }
 
         public String getCharacterId() {
@@ -161,6 +163,95 @@ public class GameSnapshotDocument {
 
         public void setEliminated(boolean eliminated) {
             this.eliminated = eliminated;
+        }
+
+        public ParticipantStats getStats() {
+            return stats;
+        }
+
+        public void setStats(ParticipantStats stats) {
+            this.stats = stats;
+        }
+    }
+
+    public static class ParticipantStats {
+        private long totalEconomicCreditsEarned;
+        private long totalResearchCreditsEarned;
+        private int totalTroopsTrained;
+        private int totalAttacksLaunched;
+        private int totalDamageDealt;
+        private int totalDamageReceived;
+        private int totalTroopsLost;
+
+        public ParticipantStats() {
+        }
+
+        public ParticipantStats(long totalEconomicCreditsEarned, long totalResearchCreditsEarned,
+                                int totalTroopsTrained, int totalAttacksLaunched, int totalDamageDealt,
+                                int totalDamageReceived, int totalTroopsLost) {
+            this.totalEconomicCreditsEarned = totalEconomicCreditsEarned;
+            this.totalResearchCreditsEarned = totalResearchCreditsEarned;
+            this.totalTroopsTrained = totalTroopsTrained;
+            this.totalAttacksLaunched = totalAttacksLaunched;
+            this.totalDamageDealt = totalDamageDealt;
+            this.totalDamageReceived = totalDamageReceived;
+            this.totalTroopsLost = totalTroopsLost;
+        }
+
+        public long getTotalEconomicCreditsEarned() {
+            return totalEconomicCreditsEarned;
+        }
+
+        public void setTotalEconomicCreditsEarned(long totalEconomicCreditsEarned) {
+            this.totalEconomicCreditsEarned = totalEconomicCreditsEarned;
+        }
+
+        public long getTotalResearchCreditsEarned() {
+            return totalResearchCreditsEarned;
+        }
+
+        public void setTotalResearchCreditsEarned(long totalResearchCreditsEarned) {
+            this.totalResearchCreditsEarned = totalResearchCreditsEarned;
+        }
+
+        public int getTotalTroopsTrained() {
+            return totalTroopsTrained;
+        }
+
+        public void setTotalTroopsTrained(int totalTroopsTrained) {
+            this.totalTroopsTrained = totalTroopsTrained;
+        }
+
+        public int getTotalAttacksLaunched() {
+            return totalAttacksLaunched;
+        }
+
+        public void setTotalAttacksLaunched(int totalAttacksLaunched) {
+            this.totalAttacksLaunched = totalAttacksLaunched;
+        }
+
+        public int getTotalDamageDealt() {
+            return totalDamageDealt;
+        }
+
+        public void setTotalDamageDealt(int totalDamageDealt) {
+            this.totalDamageDealt = totalDamageDealt;
+        }
+
+        public int getTotalDamageReceived() {
+            return totalDamageReceived;
+        }
+
+        public void setTotalDamageReceived(int totalDamageReceived) {
+            this.totalDamageReceived = totalDamageReceived;
+        }
+
+        public int getTotalTroopsLost() {
+            return totalTroopsLost;
+        }
+
+        public void setTotalTroopsLost(int totalTroopsLost) {
+            this.totalTroopsLost = totalTroopsLost;
         }
     }
 

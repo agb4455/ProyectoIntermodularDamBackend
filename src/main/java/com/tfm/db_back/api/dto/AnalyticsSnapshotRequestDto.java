@@ -28,7 +28,18 @@ public record AnalyticsSnapshotRequestDto(
             int capitalHealth,
             List<TroopSnapshotDto> troops,
             List<String> unlockedResearches,
-            boolean eliminated
+            boolean eliminated,
+            ParticipantStatsDto stats
+    ) {}
+
+    public record ParticipantStatsDto(
+            long totalEconomicCreditsEarned,
+            long totalResearchCreditsEarned,
+            int totalTroopsTrained,
+            int totalAttacksLaunched,
+            int totalDamageDealt,
+            int totalDamageReceived,
+            int totalTroopsLost
     ) {}
 
     public record TroopSnapshotDto(
