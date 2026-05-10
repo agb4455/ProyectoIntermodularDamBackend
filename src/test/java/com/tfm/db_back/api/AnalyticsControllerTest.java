@@ -44,7 +44,8 @@ class AnalyticsControllerTest {
                 List.of(
                         new AnalyticsSnapshotRequestDto.PlayerSnapshotDto(
                                 "char1", "clan1", 100, 50, 1000,
-                                List.of(), List.of(), false
+                                List.of(), List.of(), false,
+                                new AnalyticsSnapshotRequestDto.ParticipantStatsDto(0, 0, 0, 0, 0, 0, 0, 0, 0)
                         )
                 ),
                 List.of()
@@ -70,7 +71,8 @@ class AnalyticsControllerTest {
                 List.of(
                         new AnalyticsSnapshotRequestDto.PlayerSnapshotDto(
                                 "char1", "clan1", 100, 50, 1000,
-                                List.of(), List.of(), false
+                                List.of(), List.of(), false,
+                                new AnalyticsSnapshotRequestDto.ParticipantStatsDto(0, 0, 0, 0, 0, 0, 0, 0, 0)
                         )
                 ),
                 List.of()

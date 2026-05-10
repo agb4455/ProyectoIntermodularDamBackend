@@ -5,6 +5,7 @@ import com.tfm.db_back.infrastructure.mongodb.BattleEventRepository;
 import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotDocument;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotRepository;
+import com.tfm.db_back.domain.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -23,6 +24,7 @@ class AnalyticsServiceTest {
     private GameSnapshotRepository gameSnapshotRepository;
     private BattleEventRepository battleEventRepository;
     private CharacterRepository characterRepository;
+    private GameRepository gameRepository;
     private AnalyticsServiceImpl analyticsService;
 
     @BeforeEach
@@ -30,7 +32,8 @@ class AnalyticsServiceTest {
         gameSnapshotRepository = mock(GameSnapshotRepository.class);
         battleEventRepository = mock(BattleEventRepository.class);
         characterRepository = mock(CharacterRepository.class);
-        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository, characterRepository);
+        gameRepository = mock(GameRepository.class);
+        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository, characterRepository, gameRepository);
     }
 
     @Test
@@ -44,7 +47,8 @@ class AnalyticsServiceTest {
                                 "char1", "clan1", 100, 50, 1000,
                                 List.of(new AnalyticsSnapshotRequestDto.TroopSnapshotDto("troop1", "typeA", 100, true)),
                                 List.of("research1"),
-                                false
+                                false,
+                                new AnalyticsSnapshotRequestDto.ParticipantStatsDto(0, 0, 0, 0, 0, 0, 0, 0, 0)
                         )
                 ),
                 List.of()

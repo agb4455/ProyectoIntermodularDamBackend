@@ -46,7 +46,8 @@ public class AnalyticsControllerIntegrationTest extends AbstractIntegrationTest 
             100, 50, 1000,
             Collections.emptyList(),
             Collections.emptyList(),
-            false
+            false,
+            new AnalyticsSnapshotRequestDto.ParticipantStatsDto(0, 0, 0, 0, 0, 0, 0, 0, 0)
         );
 
         AnalyticsSnapshotRequestDto dto = new AnalyticsSnapshotRequestDto(
