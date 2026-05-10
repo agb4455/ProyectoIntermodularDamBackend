@@ -43,6 +43,14 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("UNAUTHORIZED", ex.getMessage(), Instant.now()));
     }
 
+    // Prohibido → 403
+    @ExceptionHandler(com.tfm.db_back.domain.exception.ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(com.tfm.db_back.domain.exception.ForbiddenException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse("FORBIDDEN", ex.getMessage(), Instant.now()));
+    }
+
     // Conflicto de unicidad → 409
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex) {

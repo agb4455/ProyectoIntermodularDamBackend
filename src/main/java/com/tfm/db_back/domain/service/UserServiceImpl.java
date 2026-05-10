@@ -4,6 +4,7 @@ import com.tfm.db_back.api.dto.CreateUserRequestDto;
 import com.tfm.db_back.api.dto.UserResponseDto;
 import com.tfm.db_back.domain.exception.ConflictException;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
+import com.tfm.db_back.domain.exception.ForbiddenException;
 import com.tfm.db_back.domain.model.User;
 import com.tfm.db_back.domain.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -100,6 +101,11 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             log.warn("[Auth] Intento de login fallido para usuario: {} (Contraseña incorrecta)", username);
             throw new com.tfm.db_back.domain.exception.UnauthorizedException("Credenciales inválidas");
+        }
+
+        if (user.isBanned()) {
+            log.warn("[Auth] Intento de login denegado: Usuario {} está baneado", username);
+            throw new ForbiddenException("El usuario ha sido baneado del sistema");
         }
 
         log.info("[Auth] Credenciales verificadas exitosamente para usuario: {}", username);
