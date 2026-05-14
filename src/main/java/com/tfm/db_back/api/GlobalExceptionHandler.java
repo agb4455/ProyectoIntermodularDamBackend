@@ -79,6 +79,14 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("INTERNAL_ERROR", "Ha ocurrido un error interno. Contacta al administrador.", Instant.now()));
     }
 
+    // Excepciones de estado ilegal (lógica de negocio) → 400
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("ILLEGAL_STATE", ex.getMessage(), Instant.now()));
+    }
+
     // Body no legible o ausente → 400
     @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleNotReadable(Exception ex) {

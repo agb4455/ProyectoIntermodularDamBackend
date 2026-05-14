@@ -145,14 +145,16 @@ public class GameServiceImpl implements GameService {
 
         List<GameParticipant> participants = participantRepository.findByGameId(gameId);
         
-        if (participants.size() >= game.getMaxPlayers()) {
-            throw new IllegalStateException("La partida está llena");
-        }
-
+        // 1. Comprobamos si el personaje ya está en la partida (idempotencia)
         boolean alreadyIn = participants.stream()
                 .anyMatch(p -> p.getCharacterId().equals(characterId));
         if (alreadyIn) {
-            return getGame(gameId); // Ya está dentro, retornamos estado actual
+            return getGame(gameId); // Ya está dentro, retornamos estado actual sin error
+        }
+
+        // 2. Comprobamos si hay hueco
+        if (participants.size() >= game.getMaxPlayers()) {
+            throw new IllegalStateException("La partida está llena");
         }
 
         GameParticipant newParticipant = new GameParticipant(
