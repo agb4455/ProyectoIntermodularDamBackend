@@ -35,7 +35,7 @@ public class AnalyticsController {
     @PostMapping("/snapshots")
     public ResponseEntity<Void> publishSnapshot(@Valid @RequestBody AnalyticsSnapshotRequestDto dto) {
         analyticsService.saveSnapshot(dto);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/user/{userId}")
