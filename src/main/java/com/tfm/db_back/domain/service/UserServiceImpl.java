@@ -203,6 +203,30 @@ public class UserServiceImpl implements UserService {
         log.info("[Admin] Usuario desbaneado: {}", user.getUsername());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public java.util.List<com.tfm.db_back.api.dto.RankingUserResponseDto> getRanking() {
+        java.util.List<User> topUsers = userRepository.findTop3Ranking();
+
+        java.util.List<com.tfm.db_back.api.dto.RankingUserResponseDto> ranking = new java.util.ArrayList<>();
+        int currentRank = 0;
+        int lastScore = -1;
+
+        for (User user : topUsers) {
+            if (user.getGloriaEterna() != lastScore) {
+                currentRank++;
+                lastScore = user.getGloriaEterna();
+            }
+            ranking.add(new com.tfm.db_back.api.dto.RankingUserResponseDto(
+                    currentRank,
+                    user.getUsername(),
+                    user.getAvatarUrl(),
+                    user.getGloriaEterna()
+            ));
+        }
+        return ranking;
+    }
+
     /**
      * Mapea una entidad User a su DTO de respuesta.
      * GARANTIZA que passwordHash nunca aparece en la respuesta (security.md §3, §8).
@@ -215,7 +239,8 @@ public class UserServiceImpl implements UserService {
                 user.getAvatarUrl(),
                 user.getCreatedAt(),
                 user.getRole(),
-                user.isBanned()
+                user.isBanned(),
+                user.getGloriaEterna()
         );
     }
 }

@@ -85,4 +85,9 @@ public interface UserService {
      * Desbanea a un usuario por su ID.
      */
     void unbanUser(UUID id);
+
+    /**
+     * Obtiene el ranking de los 3 mejores jugadores por Gloria Eterna (posiciones 1º, 2º y 3º).
+     */
+    java.util.List<com.tfm.db_back.api.dto.RankingUserResponseDto> getRanking();
 }

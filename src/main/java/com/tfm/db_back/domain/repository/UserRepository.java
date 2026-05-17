@@ -30,4 +30,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     // Listado de usuarios ordenados por fecha de creación (más recientes primero)
     java.util.List<User> findAllByOrderByCreatedAtDesc();
+
+    // Obtener los usuarios clasificados en el podio (Top 3 puntuaciones distintas, orden descendente)
+    @org.springframework.data.jpa.repository.Query(value = 
+        "SELECT * FROM users WHERE gloria_eterna > 0 AND gloria_eterna IN " +
+        "(SELECT DISTINCT gloria_eterna FROM users WHERE gloria_eterna > 0 ORDER BY gloria_eterna DESC LIMIT 3) " +
+        "ORDER BY gloria_eterna DESC", nativeQuery = true)
+    java.util.List<User> findTop3Ranking();
 }

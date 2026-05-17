@@ -113,4 +113,14 @@ public class UserController {
         userService.updateEmail(id, dto.email());
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * GET /internal/users/ranking
+     * Obtiene el ranking de los 3 mejores jugadores por Gloria Eterna.
+     */
+    @GetMapping("/ranking")
+    public ResponseEntity<ApiResponse<java.util.List<com.tfm.db_back.api.dto.RankingUserResponseDto>>> getRanking() {
+        java.util.List<com.tfm.db_back.api.dto.RankingUserResponseDto> ranking = userService.getRanking();
+        return ResponseEntity.ok(new ApiResponse<>(ranking));
+    }
 }

@@ -61,7 +61,7 @@ class GameControllerTest {
         charId = UUID.randomUUID();
 
         GameResponseDto.ParticipantDto participant = new GameResponseDto.ParticipantDto(
-                UUID.randomUUID(), charId, (short) 1, false
+                UUID.randomUUID(), charId, UUID.randomUUID(), (short) 1, false
         );
 
         testGameResponse = new GameResponseDto(

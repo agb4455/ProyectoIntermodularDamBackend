@@ -19,7 +19,11 @@ public record UserResponseDto(
         String avatarUrl,
         Instant createdAt,
         String role,
-        boolean isBanned
+        boolean isBanned,
+        int gloriaEterna
 
 ) {
+    public UserResponseDto(UUID id, String username, String email, String avatarUrl, Instant createdAt, String role, boolean isBanned) {
+        this(id, username, email, avatarUrl, createdAt, role, isBanned, 0);
+    }
 }

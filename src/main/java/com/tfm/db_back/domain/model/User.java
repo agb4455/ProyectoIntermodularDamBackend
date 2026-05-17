@@ -73,6 +73,12 @@ public class User {
     @Column(name = "is_banned", nullable = false)
     private boolean isBanned = false;
 
+    /**
+     * Puntos de Gloria Eterna acumulados por victorias y hazañas.
+     */
+    @Column(name = "gloria_eterna", nullable = false)
+    private int gloriaEterna = 0;
+
 
     /**
      * Establece la fecha de creación justo antes de la primera persistencia.
@@ -98,6 +104,19 @@ public class User {
         this.createdAt = createdAt;
         this.role = role;
         this.isBanned = isBanned;
+        this.gloriaEterna = 0;
+    }
+
+    public User(UUID id, String username, String email, String passwordHash, String avatarUrl, Instant createdAt, String role, boolean isBanned, int gloriaEterna) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.avatarUrl = avatarUrl;
+        this.createdAt = createdAt;
+        this.role = role;
+        this.isBanned = isBanned;
+        this.gloriaEterna = gloriaEterna;
     }
 
     public UUID getId() {
@@ -162,5 +181,13 @@ public class User {
 
     public void setBanned(boolean banned) {
         isBanned = banned;
+    }
+
+    public int getGloriaEterna() {
+        return gloriaEterna;
+    }
+
+    public void setGloriaEterna(int gloriaEterna) {
+        this.gloriaEterna = gloriaEterna;
     }
 }

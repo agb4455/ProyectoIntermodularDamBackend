@@ -35,6 +35,7 @@ public record GameResponseDto(
     public record ParticipantDto(
             UUID id,
             UUID characterId,
+            UUID userId,
             short joinOrder,
             boolean eliminated
     ) {

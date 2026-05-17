@@ -17,4 +17,6 @@ public interface AnalyticsService {
     com.tfm.db_back.api.dto.UserStatsResponseDto getUserStats(java.util.UUID userId);
 
     com.tfm.db_back.api.dto.UserStatsResponseDto getGameStats(java.util.UUID gameId, java.util.UUID userId);
+
+    void recalculateUserGloriaEterna(java.util.UUID userId);
 }

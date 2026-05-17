@@ -6,7 +6,9 @@ import com.tfm.db_back.api.dto.GameResponseDto;
 import com.tfm.db_back.domain.exception.EntityNotFoundException;
 import com.tfm.db_back.domain.model.Game;
 import com.tfm.db_back.domain.model.GameStatus;
+import com.tfm.db_back.domain.model.Character;
 import com.tfm.db_back.domain.model.GameParticipant;
+import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.domain.repository.GameParticipantRepository;
 import com.tfm.db_back.domain.repository.GameRepository;
 import com.tfm.db_back.domain.repository.GameStateDumpRepository;
@@ -32,14 +34,17 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final GameParticipantRepository participantRepository;
     private final GameStateDumpRepository dumpRepository;
+    private final CharacterRepository characterRepository;
 
     // Inyección por constructor — sin @Autowired ni Lombok (java_good_practices.md)
     public GameServiceImpl(GameRepository gameRepository,
                            GameParticipantRepository participantRepository,
-                           GameStateDumpRepository dumpRepository) {
+                           GameStateDumpRepository dumpRepository,
+                           CharacterRepository characterRepository) {
         this.gameRepository = gameRepository;
         this.participantRepository = participantRepository;
         this.dumpRepository = dumpRepository;
+        this.characterRepository = characterRepository;
     }
 
     /**
@@ -234,12 +239,18 @@ public class GameServiceImpl implements GameService {
                                               List<GameParticipant> participants,
                                               String latestStateJson) {
         List<GameResponseDto.ParticipantDto> participantDtos = participants.stream()
-                .map(p -> new GameResponseDto.ParticipantDto(
-                        p.getId(),
-                        p.getCharacterId(),
-                        p.getJoinOrder(),
-                        p.isEliminated()
-                ))
+                .map(p -> {
+                    UUID userId = characterRepository.findById(p.getCharacterId())
+                            .map(Character::getUserId)
+                            .orElse(null);
+                    return new GameResponseDto.ParticipantDto(
+                            p.getId(),
+                            p.getCharacterId(),
+                            userId,
+                            p.getJoinOrder(),
+                            p.isEliminated()
+                    );
+                })
                 .toList();
 
         return new GameResponseDto(

@@ -31,15 +31,18 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private final BattleEventRepository battleEventRepository;
     private final com.tfm.db_back.domain.repository.CharacterRepository characterRepository;
     private final com.tfm.db_back.domain.repository.GameRepository gameRepository;
+    private final com.tfm.db_back.domain.repository.UserRepository userRepository;
 
     public AnalyticsServiceImpl(GameSnapshotRepository gameSnapshotRepository,
                                 BattleEventRepository battleEventRepository,
                                 com.tfm.db_back.domain.repository.CharacterRepository characterRepository,
-                                com.tfm.db_back.domain.repository.GameRepository gameRepository) {
+                                com.tfm.db_back.domain.repository.GameRepository gameRepository,
+                                com.tfm.db_back.domain.repository.UserRepository userRepository) {
         this.gameSnapshotRepository = gameSnapshotRepository;
         this.battleEventRepository = battleEventRepository;
         this.characterRepository = characterRepository;
         this.gameRepository = gameRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -160,6 +163,21 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 battleEventRepository.saveAll(battleEvents);
                 log.debug("Successfully saved {} battle events for game: {}", battleEvents.size(), dto.gameId());
             }
+
+            // Recalcular Gloria Eterna para todos los participantes de la partida
+            if (document.getPlayers() != null) {
+                for (GameSnapshotDocument.PlayerSnapshot player : document.getPlayers()) {
+                    try {
+                        java.util.UUID charId = java.util.UUID.fromString(player.getCharacterId());
+                        characterRepository.findById(charId).ifPresent(character -> {
+                            java.util.UUID userId = character.getUserId();
+                            recalculateUserGloriaEterna(userId);
+                        });
+                    } catch (Exception ex) {
+                        log.error("Failed to update Gloria Eterna for character: {}", player.getCharacterId(), ex);
+                    }
+                }
+            }
         } catch (Exception e) {
             log.error("Failed to save analytics snapshot for game: {}. Error: {}", dto.gameId(), e.getMessage(), e);
             // We do not propagate the exception to keep it fire-and-forget
@@ -224,5 +242,42 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 dto.attackerTroopsLost(),
                 dto.defenderTroopsLost()
         );
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional
+    public void recalculateUserGloriaEterna(java.util.UUID userId) {
+        com.tfm.db_back.api.dto.UserStatsResponseDto stats = getUserStats(userId);
+        long wins = stats.totalWins();
+        long attacks = stats.totalAttacks();
+        long credits = stats.totalCreditsEarned();
+
+        long gloria = (wins * 1000) + (attacks * 50) + (credits / 10);
+        final int gloriaInt = gloria < 0 ? 0 : (int) gloria;
+
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setGloriaEterna(gloriaInt);
+            userRepository.save(user);
+            log.info("[Ranking] Recalculated Gloria Eterna for user {}: {} (Wins: {}, Attacks: {}, Credits: {})",
+                    user.getUsername(), gloriaInt, wins, attacks, credits);
+        });
+    }
+
+    /**
+     * Inicializador de inicio que calcula retrospectivamente la Gloria Eterna
+     * para todos los usuarios leyendo de MongoDB y PostgreSQL.
+     */
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
+    public void initGloriaEterna() {
+        log.info("[Ranking] Iniciando recalculación retrospectiva de Gloria Eterna para todos los usuarios...");
+        List<com.tfm.db_back.domain.model.User> users = userRepository.findAll();
+        for (com.tfm.db_back.domain.model.User user : users) {
+            try {
+                recalculateUserGloriaEterna(user.getId());
+            } catch (Exception e) {
+                log.error("[Ranking] Error al inicializar Gloria Eterna para el usuario: {}", user.getUsername(), e);
+            }
+        }
+        log.info("[Ranking] Recalculación retrospectiva de Gloria Eterna completada con éxito.");
     }
 }
