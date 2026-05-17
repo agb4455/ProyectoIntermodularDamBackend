@@ -51,6 +51,12 @@ public interface GameService {
     GameResponseDto joinGame(UUID gameId, UUID characterId);
 
     /**
+     * Elimina un participante de una partida en fase de espera.
+     * Si la partida se queda sin jugadores, la elimina.
+     */
+    void leaveGame(UUID gameId, UUID characterId);
+
+    /**
      * Recupera todas las partidas en las que participa un usuario.
      * Útil para mostrar la lista de partidas en el lobby.
      */

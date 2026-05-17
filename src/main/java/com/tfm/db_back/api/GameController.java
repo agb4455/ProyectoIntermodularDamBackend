@@ -120,6 +120,19 @@ public class GameController {
     }
 
     /**
+     * POST /internal/games/{id}/leave
+     * Elimina un personaje de la partida en fase WAITING.
+     * Si la partida se queda sin jugadores, se elimina.
+     */
+    @PostMapping("/{id}/leave")
+    public ResponseEntity<Void> leaveGame(
+            @PathVariable UUID id,
+            @RequestBody UUID characterId) {
+        gameService.leaveGame(id, characterId);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
      * GET /internal/games/by-user/{userId}
      * Recupera todas las partidas (activas o terminadas) de un usuario.
      * Usado por el Middle para mostrar el historial y partidas en curso en el lobby.

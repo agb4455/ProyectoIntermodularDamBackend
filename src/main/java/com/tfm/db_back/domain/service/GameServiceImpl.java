@@ -168,6 +168,37 @@ public class GameServiceImpl implements GameService {
     }
 
     /**
+     * Elimina un participante de una partida en fase de espera.
+     * Si la partida se queda sin jugadores, la elimina.
+     */
+    @Override
+    @Transactional
+    public void leaveGame(UUID gameId, UUID characterId) {
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new EntityNotFoundException("Partida no encontrada: " + gameId));
+
+        if (game.getStatus() != GameStatus.WAITING) {
+            throw new IllegalStateException("Solo puedes abandonar físicamente partidas en fase de espera");
+        }
+
+        List<GameParticipant> participants = participantRepository.findByGameId(gameId);
+        
+        // Find and delete the participant
+        participants.stream()
+                .filter(p -> p.getCharacterId().equals(characterId))
+                .findFirst()
+                .ifPresent(p -> participantRepository.delete(p));
+        
+        // Remove from the local list to check if empty
+        participants.removeIf(p -> p.getCharacterId().equals(characterId));
+
+        if (participants.isEmpty()) {
+            // Delete the game if no participants left
+            gameRepository.delete(game);
+        }
+    }
+
+    /**
      * Recupera todas las partidas en las que participa un usuario.
      * Útil para mostrar la lista de partidas en el lobby del frontend.
      */
