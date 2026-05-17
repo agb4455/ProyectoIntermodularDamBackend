@@ -6,6 +6,7 @@ import com.tfm.db_back.domain.repository.CharacterRepository;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotDocument;
 import com.tfm.db_back.infrastructure.mongodb.GameSnapshotRepository;
 import com.tfm.db_back.domain.repository.GameRepository;
+import com.tfm.db_back.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,6 +26,7 @@ class AnalyticsServiceTest {
     private BattleEventRepository battleEventRepository;
     private CharacterRepository characterRepository;
     private GameRepository gameRepository;
+    private UserRepository userRepository;
     private AnalyticsServiceImpl analyticsService;
 
     @BeforeEach
@@ -33,7 +35,8 @@ class AnalyticsServiceTest {
         battleEventRepository = mock(BattleEventRepository.class);
         characterRepository = mock(CharacterRepository.class);
         gameRepository = mock(GameRepository.class);
-        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository, characterRepository, gameRepository);
+        userRepository = mock(UserRepository.class);
+        analyticsService = new AnalyticsServiceImpl(gameSnapshotRepository, battleEventRepository, characterRepository, gameRepository, userRepository);
     }
 
     @Test
